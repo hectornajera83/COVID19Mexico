@@ -84,8 +84,8 @@ tab.m$padecimiento<-rep(c("Obesidad","Diabetes","Asma","Tabaquismo","Inmunosupre
 ```
 
 ```{r echo=FALSE}
-ggplot(tab.m) + geom_point(aes(padecimiento, value*100, color=label), size=5) + 
-  labs(y = "% de muertes dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=55)
+ggplot(tab.m) + geom_point(aes(reorder(padecimiento,value), value*100, color=label), size=5) + 
+  labs(y = "% de muertes dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=35)
 ```
 
 ### Sexo

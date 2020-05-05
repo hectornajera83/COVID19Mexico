@@ -7,7 +7,7 @@ title: "Análisis de datos"
 
 >>
 > * Prevalencia cruda de muertes por COVID-19 por grupos de población y padecimientos <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html" class="btn btn-info">Prevalencia cruda</a>
-> * Prevalencia ajustada de muertes por COVID-19 por grupos de población y padecimientos <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.htmll" class="btn btn-info">Prevalencia ajustada</a>
+> * Prevalencia ajustada de muertes por COVID-19 por grupos de población y padecimientos <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.html" class="btn btn-info">Prevalencia ajustada</a>
 > * Prevalencia ajustada de muertes por COVID-19 según características de la atención <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws3.html" class="btn btn-info">Análisis institucional</a>
 
 <div class="alert alert-dismissible alert-warning">

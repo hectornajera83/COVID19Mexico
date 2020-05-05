@@ -9,7 +9,7 @@ output:
     theme: cosmo
 ---
 
-```{r include=FALSE}
+```{r echo=FALSE, include=FALSE}
 file.create('.nojekyll')
 ```
 

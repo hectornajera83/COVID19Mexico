@@ -360,7 +360,7 @@ ggplot(renal, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
 
 ### Interacción: Obesidad y Diabetes
 
-```{r}
+```{r echo=FALSE}
 dia.obs<-ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2"), condition = c(tabaquismo_2 = .5,
                                                                cardiovascular_2 = .5,
                                                                habla_lengua_indig_2 = .5,

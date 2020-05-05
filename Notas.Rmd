@@ -12,7 +12,7 @@ La información es abierta, gratuita y pública.
 
 Las probabilidades se obtienen en dos pasos:
 
-## Estimación de modelo bayesiano de regresión binaria. Para la estimación se usaron los siguientes programas:
+* Estimación de modelo bayesiano de regresión binaria. Para la estimación se usaron los siguientes programas:
 
 Rstan: 
 
@@ -22,7 +22,7 @@ El paquete `brms()` de R:
 
 Paul-Christian Bürkner (2017). brms: An R Package for Bayesian Multilevel Models Using Stan. Journal of Statistical Software, 80(1), 1-28. doi:10.18637/jss.v080.i01
 
-## Estimación de probabilidades a partir de los resultados del modelo.
+* Estimación de probabilidades a partir de los resultados del modelo.
 
 Los paquetes `ggpredict()` de R. Con auxilio de `ggplot2()`. 
 

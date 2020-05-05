@@ -4,20 +4,27 @@ title: "Inicio"
 
 <div class="alert alert-dismissible alert-success">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>Casos totales</strong> <a href="#" class="alert-link">23,471</a>
+  <strong>Casos totales</strong> <a href="#" class="alert-link">24,905 </a>
 </div>
 
 <div class="alert alert-dismissible alert-danger">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>Muertes totales</strong> <a href="#" class="alert-link">2,154</a>
+  <strong>Muertes totales</strong> <a href="#" class="alert-link">2,270 </a>
 </div>
+
+<div class="alert alert-dismissible alert-warning">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Atención!</h4>
+  <p>Este sitio produce información sobre la prevalencia de muerte por COVID19 para distintos grupos de población, diversas enfermedades e información institucional</p>
+</div>
+
 
 > Este sitio,  <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico " target="_blank">con base en información pública</a>, reporta:
 
 >>
-> * Prevalencia cruda de muertes por COVID-19 por grupos de población y padecimientos <a href="file:///C:/OneDrive/Proyectos%20Investigacion/COVID19/_site/COVID19_ws1.html" class="btn btn-info">Prevalencia cruda</a>
-> * Prevalencia ajustada de muertes por COVID-19 por grupos de población y padecimientos <a href="file:///C:/OneDrive/Proyectos%20Investigacion/COVID19/_site/COVID19_ws2.html" class="btn btn-info">Prevalencia ajustada</a>
-> * Prevalencia ajustada de muertes por COVID-19 según características de la atención <a href="file:///C:/OneDrive/Proyectos%20Investigacion/COVID19/_site/COVID19_ws3.html" class="btn btn-info">Análisis institucional</a>
+> * Prevalencia cruda de muertes por COVID-19 por grupos de población y padecimientos <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html" class="btn btn-info">Prevalencia cruda</a>
+> * Prevalencia ajustada de muertes por COVID-19 por grupos de población y padecimientos <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.html" class="btn btn-info">Prevalencia ajustada</a>
+> * Prevalencia ajustada de muertes por COVID-19 según características de la atención <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws3.html" class="btn btn-info">Análisis institucional</a>
 
 <div class="alert alert-dismissible alert-warning">
   <button type="button" class="close" data-dismiss="alert">&times;</button>

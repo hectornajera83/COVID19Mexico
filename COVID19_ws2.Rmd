@@ -84,6 +84,64 @@ ggplot(data=edad.p, aes(x, predicted*100)) + geom_ribbon(aes(ymin = conf.low*100
   geom_line() + theme_classic()
 ```
 
+### Sexo
+
+```{r echo=FALSE}
+sexo.m<-ggpredict(Model.B, terms = c("sexo_1"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               obesidad_2=.5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sector_3 = mean(D1$sector_3),
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+
+sexo.r<-ggpredict(Model.B, terms = c("sexo_1"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               obesidad_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sector_3 = .1,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+sexo.m$riesgo<-"Medio"
+sexo.r$riesgo<-"Alto"
+sexo<-rbind(sexo.m,sexo.r)
+
+
+obesidad$x<-ifelse(sexo$x==1,"Mujer","Hombre")
+
+ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sexo", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+   ylim(c(3,25)) + 
+  theme_classic() +   scale_color_hue(l=30, c=80) 
+```
+
 ### Obesidad
 
 ```{r echo=FALSE}

@@ -269,7 +269,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">COVID19-México. Prevalencias de muerte por grupos de población</a>
+      <a class="navbar-brand" href="index.html">COVID19-México.</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -327,36 +327,34 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>file.create(&#39;.nojekyll&#39;)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
 <div id="prevalencia-cruda-condiciones-de-salud-y-demograficas" class="section level2 tabset">
 <h2>Prevalencia cruda: condiciones de salud y demográficas</h2>
-<div id="prevalencia-cruda-por-padecimiento" class="section level3">
-<h3>Prevalencia (cruda) por padecimiento</h3>
+<div id="padecimientos" class="section level3">
+<h3>Padecimientos</h3>
 <p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
-<div id="prevalencia-cruda-de-muerte-por-sexo" class="section level3">
-<h3>Prevalencia (cruda) de muerte por sexo</h3>
+<div id="sexo" class="section level3">
+<h3>Sexo</h3>
 <p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="prevalencia-cruda-de-muerte-por-grupo-de-edad" class="section level3">
-<h3>Prevalencia (cruda) de muerte por grupo de edad</h3>
+<div id="grupo-de-edad" class="section level3">
+<h3>Grupo de edad</h3>
 <p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
-<div id="prevalencia-cruda-de-muerte-por-estado-residencia" class="section level3">
-<h3>Prevalencia (cruda) de muerte por estado residencia</h3>
+<div id="estado-residencia" class="section level3">
+<h3>Estado residencia</h3>
 <p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
-<div id="prevalencia-cruda-de-muerte-por-condicion-indigena" class="section level3">
-<h3>Prevalencia (cruda) de muerte por condición indígena</h3>
+<div id="condicion-indigena" class="section level3">
+<h3>Condición indígena</h3>
 <p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 <div id="nota-prevalencia-cruda" class="section level3">
 <h3>Nota: Prevalencia cruda</h3>
 <div id="significado-e-interpretacion" class="section level4">
 <h4>Significado e interpretación</h4>
-<p>La Prevalencia cruda es la proporción de muertes dentro de cada grupo poblacional. Por ejemplo, considere 100 mujeres y 100 hombres con una prevalencia cruda igual a 15% y 25%, respectivamente. Esto signfica que el 25% de los hombres con el padecimiento murió.</p>
-<p>LIMITACIÓN: Se trata entonces de un estadístico simple pero sin ajuste. Es decir, no considera la composición dentro de cada grupo. Por ejemplo, si dentro del grupo de hombres 90% tuviera diabetes (mientras que tan sólo el 10% de las mujeres tuviera diabetes), la prevalencia cruda no podría distinguir el efecto estadístico de la diabetes respecto a la condición de ser hombre. En otras palabras, no se puede concluir que la diferencia observada de 10% entre hombre y mujeres es por la condición de sexo <em>-los hombres no tienen necesariamente 10% más riesgo que las mujeres de morir-</em>. En este ejemplo, la diferencia se explica mayormente por diabetes que por sexo.</p>
+<p>La Prevalencia cruda es la proporción de muertes dentro de cada grupo poblacional. Por ejemplo, considere 100 mujeres y 100 hombres con una prevalencia cruda igual a 15% y 25%, respectivamente. Esto significa que el 25% de los hombres con el padecimiento murió.</p>
+<p>LIMITACIÓN: Se trata entonces de un estadístico simple, pero sin ajuste. Es decir, no considera la composición dentro de cada grupo. Por ejemplo, si dentro del grupo de hombres 90% tuviera diabetes (mientras que tan sólo el 10% de las mujeres tuviera diabetes), la prevalencia cruda no podría distinguir el efecto estadístico de la diabetes respecto a la condición de ser hombre. En otras palabras, no se puede concluir que la diferencia observada de 10% entre hombre y mujeres es por la condición de sexo <em>-los hombres no tienen necesariamente 10% más riesgo que las mujeres de morir-</em>. En este ejemplo, la diferencia se explica mayormente por diabetes que por sexo.</p>
 <p>Si su busca hacer interpretaciones más <em>robustas</em>, se recomienda usar las <strong>prevalencias/probabilidades ajustadas</strong> reportadas en este mismo portal.</p>
 <p>Los datos se actualizan diariamente con información oficial de: <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico" class="uri">https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico</a></p>
 </div>

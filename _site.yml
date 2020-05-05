@@ -1,6 +1,6 @@
 name: "Covid-site"
 navbar: 
-  title: "COVID19-México. Prevalencias de muerte por grupos de población"
+  title: "COVID19-México."
   left: 
     - text: "Inicio"
       href: index.html

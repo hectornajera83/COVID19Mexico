@@ -47,16 +47,20 @@ Model<- glm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + secto
 ```{r eval=FALSE, include=FALSE}
 library(brms)
 library(dplyr)
-#D1a<-sample_n(D1,5000)
+#D1a<-sample_n(D1,7000)
 
-Model.B<-brm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D1, prior = c(set_prior("normal(0,10)", class="b"),
+Model.B<-brm(death ~ 1 + f_gap + f_gap2  + sector_3 + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D1, prior = c(set_prior("normal(0,10)", class="b"),
                                 set_prior("student_t(3,0,5)", class="Intercept"),
+                                set_prior("normal(0,1)", class="b", coef="sexo_1"),
+                                set_prior("normal(0,1)", class="b", coef="embarazo_2"),
+                                set_prior("normal(0,1)", class="b", coef="sector_3"),
                                 set_prior("normal(0,1)", class="b", coef="sector_4"),
                                 set_prior("normal(0,1)", class="b", coef="sector_6"),
                                 set_prior("normal(0,1)", class="b", coef="sector_11"),
+                                set_prior("normal(0,1)", class="b", coef="sector_12"),
                                 set_prior("normal(0,1)", class="b", coef="sector_8"),
                                 set_prior("normal(0,1)", class="b", coef="sector_9")),
- family = "bernoulli", chains=4, cores=4, iter = 800, control = list(max_treedepth = 11))
+ family = "bernoulli", chains=4, cores=4, iter = 900, control = list(max_treedepth = 12))
 
 save(Model.B,file="Model.B")
 ```
@@ -184,7 +188,7 @@ diabetes$x<-ifelse(diabetes$x==1,"Sin Diabetes","Con Diabetes")
 ggplot(diabetes, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Condición de diabetes", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
-   ylim(c(4,30)) + 
+   ylim(c(4,35)) + 
   theme_classic() +   scale_color_manual(values=c("#d64161", "#6b5b95"))
 
 ```
@@ -244,6 +248,61 @@ ggplot(hipertension, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo))
 
 ```
 
+### Cardiovascular
+
+```{r echo=FALSE}
+cardiovascular.m<-ggpredict(Model.B, terms = c("cardiovascular_2"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               hipertension_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+cardiovascular.r<-ggpredict(Model.B, terms = c("cardiovascular_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               obesidad_2= .05,
+                                                               hipertension_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               diabetes_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+cardiovascular.m$riesgo<-"Medio"
+cardiovascular.r$riesgo<-"Alto"
+cardiovascular<-rbind(cardiovascular.m,cardiovascular.r)
+
+cardiovascular$x<-ifelse(cardiovascular$x==1,"Sin cardiovascular","Con cardiovascular")
+
+ggplot(cardiovascular, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Condición de enfermedad cardiovascular", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+   ylim(c(4,30)) + 
+ theme_classic() + scale_color_manual(values=c("#051e3e", "#851e3e"))
+
+```
+
 ### Enfermedad renal crónica
 
 ```{r echo=FALSE}
@@ -295,14 +354,41 @@ ggplot(renal, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Enfermedad renal crónica", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
    ylim(c(4,30)) + 
- theme_classic() + scale_color_manual(values=c("#c1502e", "#587e76"))
+ theme_classic() + scale_color_manual(values=c("#4a4e4d", "#fe8a71"))
 
 ```
 
-### Efecto: Obesidad y Diabetes
+### Interacción: Obesidad y Diabetes
 
 ```{r}
-plot(ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2")))
+dia.obs<-ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2"), condition = c(tabaquismo_2 = .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               diabetes_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+
+dia.obs$diabetes<-c("Con diabetes","Sin diabetes", "Con diabetes","Sin diabetes")
+dia.obs$obesidad<-c("Con obesidad","Con obesidad", "Sin obesidad","Sin obesidad")
+
+ggplot(dia.obs, aes(x = obesidad, y = predicted*100, colour=diabetes, group=diabetes)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Interacción obesidad y diabetes", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+   ylim(c(0,20)) + 
+ theme_classic() + scale_color_manual(values=c("#f1602e", "#9e7e76")) +  theme(legend.position = "bottom")
+
 ```
 
 
@@ -310,15 +396,15 @@ plot(ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2")))
 
 #### Significado e interpretación
 
-La probabilidad ajustada es la proporción de muertes atribuibles a cierto factor -después de considerar otras características-. Por ejemplo, considere 100 personas con diabetes y 100 personas sin diabetes con probabilidades ajustadas de 25% y 15%, respectivamente. Esto signfica que -en promedio- el efecto de diabetes sobre la probabildidad de muerte es de 10%. En otras palabras, las personas con diabetes tiene 10% más riesgo de morir que las que no tienen diabetes. 
+La probabilidad ajustada es la proporción de muertes atribuibles a cierto factor -después de considerar otras características-. Por ejemplo, considere 100 personas con diabetes y 100 personas sin diabetes con probabilidades ajustadas de 25% y 15%, respectivamente. Esto significa que -en promedio- el efecto de diabetes sobre la probabilidad de muerte es de 10%. En otras palabras, las personas con diabetes tienen 10% más riesgo de morir que las que no tienen diabetes. 
 
 #### **Significado de riesgo medio y alto**
 
-Riesgo medio: Es la probabilidad de muerte atribuible al factor en cuestion -e.g. diabetes- considerando las otras características a la media. Es decir, es la probabilidad de muerte para diabeticos y no diabeticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta "normal o típica".
+Riesgo medio: Es la probabilidad de muerte atribuible al factor en cuestión -e.g. diabetes- considerando las otras características a sus valores promedio. Es decir, es la probabilidad de muerte para diabéticos y no diabéticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta "normal o típica".
 
-Riesgo alto: Es la probabilidad de muerte atribuible al factor en cuestion -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de muerte para diabeticos y no diabeticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.
+Riesgo alto: Es la probabilidad de muerte atribuible al factor en cuestión -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de muerte para diabéticos y no diabéticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.
 
-#### **Método para cálculo de probabildades**
+#### **Método para cálculo de probabilidades**
 
 Las probabilidades se obtienen en dos pasos:
 
@@ -343,4 +429,5 @@ H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New Yor
 
 * Datos
 
-Los datos se actualizan diariamente con información oficial de: https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico 
+Los datos se actualizan diariamente con información oficial de: https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico
+

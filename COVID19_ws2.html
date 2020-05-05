@@ -269,7 +269,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">COVID19-México. Prevalencias de muerte por grupos de población</a>
+      <a class="navbar-brand" href="index.html">COVID19-México.</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -339,35 +339,64 @@ $(document).ready(function () {
 </div>
 <div id="diabetes" class="section level3">
 <h3>Diabetes</h3>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="hipertension" class="section level3">
 <h3>Hipertensión</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
-<div id="enfermedad-renal-cronica" class="section level3">
-<h3>Enfermedad renal crónica</h3>
+<div id="cardiovascular" class="section level3">
+<h3>Cardiovascular</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="efecto-obesidad-y-diabetes" class="section level3">
-<h3>Efecto: Obesidad y Diabetes</h3>
-<pre class="r"><code>plot(ggpredict(Model.B, terms = c(&quot;diabetes_2&quot;, &quot;obesidad_2&quot;)))</code></pre>
+<div id="enfermedad-renal-cronica" class="section level3">
+<h3>Enfermedad renal crónica</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="interaccion-obesidad-y-diabetes" class="section level3">
+<h3>Interacción: Obesidad y Diabetes</h3>
+<pre class="r"><code>dia.obs&lt;-ggpredict(Model.B, terms = c(&quot;diabetes_2&quot;, &quot;obesidad_2&quot;), condition = c(tabaquismo_2 = .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               diabetes_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+
+dia.obs$diabetes&lt;-c(&quot;Con diabetes&quot;,&quot;Sin diabetes&quot;, &quot;Con diabetes&quot;,&quot;Sin diabetes&quot;)
+dia.obs$obesidad&lt;-c(&quot;Con obesidad&quot;,&quot;Con obesidad&quot;, &quot;Sin obesidad&quot;,&quot;Sin obesidad&quot;)
+
+ggplot(dia.obs, aes(x = obesidad, y = predicted*100, colour=diabetes, group=diabetes)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x=&quot;Interacción obesidad y diabetes&quot;, y=&quot;Probabilidad muerte (%)&quot;, color = &quot;Riesgo factores de salud&quot;) + 
+   ylim(c(0,20)) + 
+ theme_classic() + scale_color_manual(values=c(&quot;#f1602e&quot;, &quot;#9e7e76&quot;)) +  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="nota-probabilidad-ajustada" class="section level3">
 <h3>Nota: Probabilidad ajustada</h3>
 <div id="significado-e-interpretacion" class="section level4">
 <h4>Significado e interpretación</h4>
-<p>La probabilidad ajustada es la proporción de muertes atribuibles a cierto factor -después de considerar otras características-. Por ejemplo, considere 100 personas con diabetes y 100 personas sin diabetes con probabilidades ajustadas de 25% y 15%, respectivamente. Esto signfica que -en promedio- el efecto de diabetes sobre la probabildidad de muerte es de 10%. En otras palabras, las personas con diabetes tiene 10% más riesgo de morir que las que no tienen diabetes.</p>
+<p>La probabilidad ajustada es la proporción de muertes atribuibles a cierto factor -después de considerar otras características-. Por ejemplo, considere 100 personas con diabetes y 100 personas sin diabetes con probabilidades ajustadas de 25% y 15%, respectivamente. Esto significa que -en promedio- el efecto de diabetes sobre la probabilidad de muerte es de 10%. En otras palabras, las personas con diabetes tienen 10% más riesgo de morir que las que no tienen diabetes.</p>
 </div>
 <div id="significado-de-riesgo-medio-y-alto" class="section level4">
 <h4><strong>Significado de riesgo medio y alto</strong></h4>
-<p>Riesgo medio: Es la probabilidad de muerte atribuible al factor en cuestion -e.g. diabetes- considerando las otras características a la media. Es decir, es la probabilidad de muerte para diabeticos y no diabeticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta “normal o típica”.</p>
-<p>Riesgo alto: Es la probabilidad de muerte atribuible al factor en cuestion -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de muerte para diabeticos y no diabeticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.</p>
+<p>Riesgo medio: Es la probabilidad de muerte atribuible al factor en cuestión -e.g. diabetes- considerando las otras características a sus valores promedio. Es decir, es la probabilidad de muerte para diabéticos y no diabéticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta “normal o típica”.</p>
+<p>Riesgo alto: Es la probabilidad de muerte atribuible al factor en cuestión -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de muerte para diabéticos y no diabéticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.</p>
 </div>
-<div id="metodo-para-calculo-de-probabildades" class="section level4">
-<h4><strong>Método para cálculo de probabildades</strong></h4>
+<div id="metodo-para-calculo-de-probabilidades" class="section level4">
+<h4><strong>Método para cálculo de probabilidades</strong></h4>
 <p>Las probabilidades se obtienen en dos pasos:</p>
 <ul>
 <li>Estimación de modelo bayesiano de regresión binaria. Para la estimación se usaron los siguientes programas:</li>

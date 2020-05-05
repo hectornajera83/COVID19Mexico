@@ -9,7 +9,7 @@ output:
     theme: cosmo
 ---
 
-```{r}
+```{r include=FALSE}
 file.create('.nojekyll')
 ```
 
@@ -63,7 +63,7 @@ load("Model.B")
 
 ## Prevalencia cruda: condiciones de salud y demográficas {.tabset} 
 
-### Prevalencia (cruda) por padecimiento
+### Padecimientos
 
 ```{r eval=T, include=FALSE}
 library(descr)
@@ -88,7 +88,7 @@ ggplot(tab.m) + geom_point(aes(padecimiento, value*100, color=label), size=5) +
   labs(y = "% de muertes dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=55)
 ```
 
-### Prevalencia (cruda) de muerte por sexo
+### Sexo
 
 ```{r include=FALSE}
 sexo<-crosstab(D1$sexo,D1$death,prop.r=TRUE)
@@ -106,7 +106,7 @@ ggplot(sexo) + geom_point(aes(reorder(Sexo,Freq), Freq), size=7, shape=18, colou
 ```
 
 
-### Prevalencia (cruda) de muerte por grupo de edad
+### Grupo de edad
 
 ```{r include=FALSE}
 library(car)
@@ -116,14 +116,14 @@ edad<-crosstab(D1$g.edad,D1$death,prop.r=TRUE)
 
 ```{r include=FALSE}
 edad<-as.data.frame(edad$prop.row*100)
-edad<-edad[c(9:16),]
+edad<-edad[c(11:20),]
 ```
 
 ```{r echo=FALSE}
 ggplot(edad) + geom_point(aes(D1.g.edad, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Entidad")
 ```
 
-### Prevalencia (cruda) de muerte por estado residencia
+### Estado residencia
 
 ```{r include=FALSE}
 edo<-crosstab(D1$entidad_res,D1$death,prop.r=TRUE)
@@ -132,14 +132,17 @@ edo<-crosstab(D1$entidad_res,D1$death,prop.r=TRUE)
 ```{r include=FALSE}
 edo<-as.data.frame(edo$prop.row*100)
 edo<-edo[c(33:64),]
+edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campeche","Coahuila","Colima",
+                      "Chiapas","Chihuahua","Ciudad de México","Durango","Guanajuato","Guerrero","Hidalgo","Jalisco",
+                       "México","Michoacán", "Morelos","Nayarit","Nuevo León", "Oaxaca","Puebla","Querétaro","Quintana Roo",
+                       "San Luis Potosí", "Sinaloa","Sonora", "Tabasco", "Tamaulipas","Tlaxcala","Veracruz","Yucatán", "Zacatecas")
 ```
 
 ```{r echo=FALSE}
-ggplot(edo) + geom_point(aes(reorder(D1.entidad_res,Freq), Freq), size=5) + theme_classic() + labs(y="% de muertes dentro del grupo", x="Entidad")
+ggplot(edo) + geom_point(aes(reorder(Entidad,Freq), Freq), size=5) + theme_classic() + labs(y="% de muertes dentro del grupo", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
 ```
 
-
-### Prevalencia (cruda) de muerte por condición indígena
+### Condición indígena
 
 ```{r include=FALSE}
 indigena<-crosstab(D1$habla_lengua_indig,D1$death,prop.r=TRUE)
@@ -160,13 +163,14 @@ ggplot(indigena) + geom_point(aes(reorder(Indigena,Freq), Freq), size=7, shape=1
 
 #### Significado e interpretación
 
-La Prevalencia cruda es la proporción de muertes dentro de cada grupo poblacional. Por ejemplo, considere 100 mujeres y 100 hombres con una prevalencia cruda igual a 15% y 25%, respectivamente. Esto signfica que el 25% de los hombres con el padecimiento murió. 
+La Prevalencia cruda es la proporción de muertes dentro de cada grupo poblacional. Por ejemplo, considere 100 mujeres y 100 hombres con una prevalencia cruda igual a 15% y 25%, respectivamente. Esto significa que el 25% de los hombres con el padecimiento murió. 
 
-LIMITACIÓN: Se trata entonces de un estadístico simple pero sin ajuste. Es decir, no considera la composición dentro de cada grupo. Por ejemplo, si dentro del grupo de hombres 90% tuviera diabetes (mientras que tan sólo el 10% de las mujeres tuviera diabetes), la prevalencia cruda no podría distinguir el efecto estadístico de la diabetes respecto a la condición de ser hombre. En otras palabras, no se puede concluir que la diferencia observada de 10% entre hombre y mujeres es por la condición de sexo *-los hombres no tienen necesariamente 10% más riesgo que las mujeres de morir-*. En este ejemplo, la diferencia se explica mayormente por diabetes que por sexo. 
+LIMITACIÓN: Se trata entonces de un estadístico simple, pero sin ajuste. Es decir, no considera la composición dentro de cada grupo. Por ejemplo, si dentro del grupo de hombres 90% tuviera diabetes (mientras que tan sólo el 10% de las mujeres tuviera diabetes), la prevalencia cruda no podría distinguir el efecto estadístico de la diabetes respecto a la condición de ser hombre. En otras palabras, no se puede concluir que la diferencia observada de 10% entre hombre y mujeres es por la condición de sexo *-los hombres no tienen necesariamente 10% más riesgo que las mujeres de morir-*. En este ejemplo, la diferencia se explica mayormente por diabetes que por sexo. 
 
 Si su busca hacer interpretaciones más *robustas*, se recomienda usar las **prevalencias/probabilidades ajustadas** reportadas en este mismo portal. 
 
-Los datos se actualizan diariamente con información oficial de: https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico 
+Los datos se actualizan diariamente con información oficial de: https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico
+
 
 
 

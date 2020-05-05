@@ -63,6 +63,8 @@ load("Model.B")
 
 ## Prevalencia cruda: condiciones de salud y demográficas {.tabset} 
 
+Esta sección muestra la proporción de muertes según distintas condiciones demográficas y de salud (Prevalencia cruda). Estas cifras no consideran ningún ajuste estadístico y, por tanto, no permiten concluir que cierto grupo tiene más riesgo de morir por COVID-19 que otro (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.html"> Ver prevalencia ajustada</a>). Se recomienda leer la *Nota: Prevalencia Cruda*. 
+
 ### Padecimientos
 
 ```{r eval=T, include=FALSE}

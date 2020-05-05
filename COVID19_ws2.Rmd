@@ -72,6 +72,8 @@ load("Model.B")
 
 ## Probabilidad (prevalencia) ajustada: condiciones de salud y demográficas {.tabset} 
 
+Esta sección muestra la (<a href="https://hectornajera83.github.io/COVID19Mexico/Notas.html"> prevalencia ajustada</a>) de muertes según distintas condiciones demográficas y de salud. A diferencia de la  (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.html"> prevalencia cruda</a>), se trata de probabilidades que permiten hacer conclusiones más robustas sobre los factores de riesgo de muerte por COVID-19. Se recomienda leer la *Nota: Prevalencia ajustada*. 
+
 ### Edad
 
 ```{r echo=FALSE}
@@ -396,10 +398,9 @@ dia.obs$obesidad<-c("Con obesidad","Con obesidad", "Sin obesidad","Sin obesidad"
 
 ggplot(dia.obs, aes(x = obesidad, y = predicted*100, colour=diabetes, group=diabetes)) +
   geom_point(position=position_dodge(width=.3)) +
-  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Interacción obesidad y diabetes", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Interacción obesidad y diabetes", y="Probabilidad muerte (%). Riesgo medio", color = "Riesgo factores de salud") + 
    ylim(c(0,20)) + 
  theme_classic() + scale_color_manual(values=c("#f1602e", "#9e7e76")) +  theme(legend.position = "bottom")
-
 ```
 
 

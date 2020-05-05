@@ -332,6 +332,23 @@ $(document).ready(function () {
 <p>Toda la información para la producción de las estadísticas del sitio se obtiene diariamente de: <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico" class="uri">https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico</a></p>
 <p>La información es abierta, gratuita y pública.</p>
 </div>
+<div id="ajustes-estadisticos" class="section level1">
+<h1>Ajustes estadísticos</h1>
+<p>Las probabilidades se obtienen en dos pasos:</p>
+<div id="estimacion-de-modelo-bayesiano-de-regresion-binaria.-para-la-estimacion-se-usaron-los-siguientes-programas" class="section level2">
+<h2>Estimación de modelo bayesiano de regresión binaria. Para la estimación se usaron los siguientes programas:</h2>
+<p>Rstan:</p>
+<p>Stan Development Team (2018). RStan: the R interface to Stan. R package version 2.18.2. <a href="http://mc-stan.org/" class="uri">http://mc-stan.org/</a></p>
+<p>El paquete <code>brms()</code> de R:</p>
+<p>Paul-Christian Bürkner (2017). brms: An R Package for Bayesian Multilevel Models Using Stan. Journal of Statistical Software, 80(1), 1-28. <a href="doi:10.18637/jss.v080.i01" class="uri">doi:10.18637/jss.v080.i01</a></p>
+</div>
+<div id="estimacion-de-probabilidades-a-partir-de-los-resultados-del-modelo." class="section level2">
+<h2>Estimación de probabilidades a partir de los resultados del modelo.</h2>
+<p>Los paquetes <code>ggpredict()</code> de R. Con auxilio de <code>ggplot2()</code>.</p>
+<p>Lüdecke D (2018). “ggeffects: Tidy Data Frames of Marginal Effects from Regression Models.” <em>Journal of Open Source Software</em>, <em>3</em>(26), 772. doi: 10.21105/joss.00772 (URL: <a href="http://doi.org/10.21105/joss.00772" class="uri">http://doi.org/10.21105/joss.00772</a>).</p>
+<p>H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.</p>
+</div>
+</div>
 <div id="software" class="section level1">
 <h1>2. Software:</h1>
 <p>Rstan:</p>

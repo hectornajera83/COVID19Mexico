@@ -355,33 +355,6 @@ $(document).ready(function () {
 </div>
 <div id="interaccion-obesidad-y-diabetes" class="section level3">
 <h3>Interacción: Obesidad y Diabetes</h3>
-<pre class="r"><code>dia.obs&lt;-ggpredict(Model.B, terms = c(&quot;diabetes_2&quot;, &quot;obesidad_2&quot;), condition = c(tabaquismo_2 = .5,
-                                                               cardiovascular_2 = .5,
-                                                               habla_lengua_indig_2 = .5,
-                                                               diabetes_2 = .5,
-                                                               hipertension_2 = .5,
-                                                               inmusupr_2 = .5,
-                                                               asma_2 = .5,
-                                                               sexo_1 = .5,
-                                                               sector_4 = .1,
-                                                               sector_6 = .1,
-                                                               sector_8 = .1,
-                                                               sector_9 = .1,
-                                                               sector_11 = .1,
-                                                               sector_12 = .1,
-                                                               lastWeek_1 = .1,
-                                                               lastWeek_2 = .1,
-                                                               lastWeek_3 = .1))
-
-
-dia.obs$diabetes&lt;-c(&quot;Con diabetes&quot;,&quot;Sin diabetes&quot;, &quot;Con diabetes&quot;,&quot;Sin diabetes&quot;)
-dia.obs$obesidad&lt;-c(&quot;Con obesidad&quot;,&quot;Con obesidad&quot;, &quot;Sin obesidad&quot;,&quot;Sin obesidad&quot;)
-
-ggplot(dia.obs, aes(x = obesidad, y = predicted*100, colour=diabetes, group=diabetes)) +
-  geom_point(position=position_dodge(width=.3)) +
-  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x=&quot;Interacción obesidad y diabetes&quot;, y=&quot;Probabilidad muerte (%)&quot;, color = &quot;Riesgo factores de salud&quot;) + 
-   ylim(c(0,20)) + 
- theme_classic() + scale_color_manual(values=c(&quot;#f1602e&quot;, &quot;#9e7e76&quot;)) +  theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="nota-probabilidad-ajustada" class="section level3">

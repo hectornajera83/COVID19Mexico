@@ -41,6 +41,26 @@ load("Model.B")
 
 
 ```{r echo=FALSE}
+sector.3<-ggpredict(Model.B, terms = c("sector_3 [1]"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
 sector.4<-ggpredict(Model.B, terms = c("sector_4 [1]"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                cardiovascular_2 = .5,
@@ -50,6 +70,8 @@ sector.4<-ggpredict(Model.B, terms = c("sector_4 [1]"), condition = c(tabaquismo
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
                                                                asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .1,
                                                                sector_6 = .1,
                                                                sector_8 = .1,
                                                                sector_9 = .1,
@@ -68,6 +90,8 @@ sector.6<-ggpredict(Model.B, terms = c("sector_6 [1]"), condition = c(tabaquismo
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
                                                                asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .1,
                                                                sector_4 = .1,
                                                                sector_8 = .1,
                                                                sector_9 = .1,
@@ -86,6 +110,8 @@ sector.8<-ggpredict(Model.B, terms = c("sector_8 [1]"), condition = c(tabaquismo
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
                                                                asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .1,
                                                                sector_6 = .1,
                                                                sector_4 = .1,
                                                                sector_9 = .1,
@@ -104,6 +130,8 @@ sector.9<-ggpredict(Model.B, terms = c("sector_9 [1]"), condition = c(tabaquismo
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
                                                                asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .1,
                                                                sector_6 = .1,
                                                                sector_8 = .1,
                                                                sector_4 = .1,
@@ -122,6 +150,8 @@ sector.11<-ggpredict(Model.B, terms = c("sector_11 [1]"), condition = c(tabaquis
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
                                                                asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .1,
                                                                sector_6 = .1,
                                                                sector_8 = .1,
                                                                sector_9 = .1,
@@ -140,6 +170,8 @@ sector.12<-ggpredict(Model.B, terms = c("sector_12 [1]"), condition = c(tabaquis
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
                                                                asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .1,
                                                                sector_6 = .1,
                                                                sector_8 = .1,
                                                                sector_9 = .1,
@@ -158,12 +190,34 @@ sector.0<-ggpredict(Model.B, terms = c("sector_9 [0]"), condition = c(tabaquismo
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
                                                                asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .1,
                                                                sector_6 = .1,
                                                                sector_8 = .1,
                                                                sector_12 = .1,
                                                                sector_11 = .1,
                                                                sector_4 = .1,
                                                                sexo_1 = .5,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.3r<-ggpredict(Model.B, terms = c("sector_3 [1]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               obesidad_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_4 = .05,
+                                                               sector_6 = .05,
+                                                               sector_8 = .05,
+                                                               sector_9 = .05,
+                                                               sector_11 = .05,
+                                                               sector_12 = .05,
                                                                lastWeek_1 = mean(D1$lastWeek_1),
                                                                lastWeek_2 = mean(D1$lastWeek_2),
                                                                lastWeek_3 = mean(D1$lastWeek_3)))
@@ -178,6 +232,8 @@ sector.4r<-ggpredict(Model.B, terms = c("sector_4 [1]"), ci.lvl = 0.90, conditio
                                                                hipertension_2 = .05,
                                                                inmusupr_2 = .05,
                                                                asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .05,
                                                                sector_6 = .05,
                                                                sector_8 = .05,
                                                                sector_9 = .05,
@@ -196,6 +252,8 @@ sector.6r<-ggpredict(Model.B, terms = c("sector_6 [1]"), ci.lvl = 0.90, conditio
                                                                hipertension_2 = .05,
                                                                inmusupr_2 = .05,
                                                                asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .05,
                                                                sector_4 = .05,
                                                                sector_8 = .05,
                                                                sector_9 = .05,
@@ -214,6 +272,8 @@ sector.8r<-ggpredict(Model.B, terms = c("sector_8 [1]"), ci.lvl = 0.90, conditio
                                                                hipertension_2 = .05,
                                                                inmusupr_2 = .05,
                                                                asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .05,
                                                                sector_6 = .05,
                                                                sector_4 = .05,
                                                                sector_9 = .05,
@@ -232,6 +292,8 @@ sector.9r<-ggpredict(Model.B, terms = c("sector_9 [1]"), ci.lvl = 0.90, conditio
                                                                hipertension_2 = .05,
                                                                inmusupr_2 = .05,
                                                                asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .05,
                                                                sector_6 = .05,
                                                                sector_8 = .05,
                                                                sector_4 = .05,
@@ -250,6 +312,8 @@ sector.11r<-ggpredict(Model.B, terms = c("sector_11 [1]"), ci.lvl = 0.90, condit
                                                                hipertension_2 = .05,
                                                                inmusupr_2 = .05,
                                                                asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_3 = .05,
                                                                sector_6 = .05,
                                                                sector_8 = .05,
                                                                sector_9 = .05,
@@ -269,7 +333,7 @@ sector.12r<-ggpredict(Model.B, terms = c("sector_12 [1]"), ci.lvl = 0.90, condit
                                                                inmusupr_2 = .05,
                                                                asma_2 = .05,
                                                                sexo_1 = .5,
-                                                               embarazo_2 = .05,
+                                                               sector_3 = .05,
                                                                sector_6 = .05,
                                                                sector_8 = .05,
                                                                sector_9 = .05,
@@ -289,7 +353,7 @@ sector.0r<-ggpredict(Model.B, terms = c("sector_9 [0]"), ci.lvl = 0.90, conditio
                                                                inmusupr_2 = .05,
                                                                asma_2 = .05,
                                                                sexo_1 = .5,
-                                                               embarazo_2 = .05,
+                                                               sector_3 = .05,
                                                                sector_6 = .05,
                                                                sector_8 = .05,
                                                                sector_12 = .05,
@@ -302,16 +366,16 @@ sector.0r<-ggpredict(Model.B, terms = c("sector_9 [0]"), ci.lvl = 0.90, conditio
 
 
 
-sector.p<-rbind(sector.0,sector.4,sector.6,sector.8,sector.9,sector.11,sector.12)
-sector.p<-rbind(sector.p,sector.0r,sector.4r,sector.6r,sector.8r,sector.9r,sector.11r,sector.12r)
-sector.p$Institucion <- c("OTRO", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA","OTRO", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA")
-sector.p$riesgo<-rep(c("Medio","Alto"),each=7)
+sector.p<-rbind(sector.3,sector.0,sector.4,sector.6,sector.8,sector.9,sector.11,sector.12)
+sector.p<-rbind(sector.p,sector.3r,sector.0r,sector.4r,sector.6r,sector.8r,sector.9r,sector.11r,sector.12r)
+sector.p$Institucion <- c("Estatal", "OTRO", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA","Estatal","OTRO", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA")
+sector.p$riesgo<-rep(c("Medio","Alto"),each=8)
 
-ggplot(sector.p, aes(x = Institucion, y = predicted*100, colour=riesgo, group=riesgo)) +
+ggplot(sector.p, aes(x = reorder(Institucion, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sector Salud", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
-   ylim(c(0,30))  +
-  theme_classic() +   scale_color_hue(l=40, c=70) 
+   ylim(c(0,40))  +
+  theme_classic() +   scale_color_hue(l=40, c=70) + theme(legend.position = "bottom")
 ```
 
 ### Entidad 

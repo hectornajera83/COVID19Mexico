@@ -133,7 +133,7 @@ sexo.r$riesgo<-"Alto"
 sexo<-rbind(sexo.m,sexo.r)
 
 
-obesidad$x<-ifelse(sexo$x==1,"Mujer","Hombre")
+sexo$x<-ifelse(sexo$x==1,"Mujer","Hombre")
 
 ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +

@@ -125,6 +125,24 @@ edad<-edad[c(11:20),]
 ggplot(edad) + geom_point(aes(D1.g.edad, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Entidad")
 ```
 
+### Condición indígena
+
+```{r include=FALSE}
+indigena<-crosstab(D1$habla_lengua_indig,D1$death,prop.r=TRUE)
+```
+
+```{r include=FALSE}
+indigena<-as.data.frame(indigena$prop.row*100)
+indigena<-indigena[c(4:5),]
+
+indigena$Indigena<-ifelse(indigena$D1.habla_lengua_indig==1,"Habla lengua indígena","No habla lengua indígena")
+```
+
+```{r echo=FALSE}
+ggplot(indigena) + geom_point(aes(reorder(Indigena,Freq), Freq), size=7, shape=17, colour="#A52A2A") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Lengua indígena") + ylim(c(8,20))
+```
+
+
 ### Estado residencia
 
 ```{r include=FALSE}
@@ -144,21 +162,20 @@ edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campech
 ggplot(edo) + geom_point(aes(reorder(Entidad,Freq), Freq), size=5) + theme_classic() + labs(y="% de muertes dentro del grupo", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
 ```
 
-### Condición indígena
+### Sector salud
 
 ```{r include=FALSE}
-indigena<-crosstab(D1$habla_lengua_indig,D1$death,prop.r=TRUE)
+sector<-crosstab(D1$sector,D1$death,prop.r=TRUE)
 ```
 
 ```{r include=FALSE}
-indigena<-as.data.frame(indigena$prop.row*100)
-indigena<-indigena[c(4:5),]
-
-indigena$Indigena<-ifelse(indigena$D1.habla_lengua_indig==1,"Habla lengua indígena","No habla lengua indígena")
+sector<-as.data.frame(sector$prop.row*100)
+sector<-sector[c(14,15,16,18,19,21,22),]
+sector$Institucion<-c("Estatal", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA")
 ```
 
 ```{r echo=FALSE}
-ggplot(indigena) + geom_point(aes(reorder(Indigena,Freq), Freq), size=7, shape=17, colour="#A52A2A") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Lengua indígena") + ylim(c(8,20))
+ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq), size=4) + theme_classic() + labs(y="% de muertes dentro del grupo", x="Institución") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
 ```
 
 ### Nota: Prevalencia cruda

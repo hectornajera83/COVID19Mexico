@@ -1,0 +1,31 @@
+name: "Covid-site"
+navbar: 
+  title: "COVID19-México. Prevalencias de muerte por grupos de población"
+  left: 
+    - text: "Inicio"
+      href: index.html
+      menu:
+        - text: "Análisis de datos"
+          href: Analisis.html      
+        - text: "Notas metodológicas"
+          href: Notas.html      
+    - text: "Análisis de datos"
+      href: Analisis.html
+      menu:
+        - text: "Prevalencia cruda"
+          href: COVID19_ws1.html
+        - text: "Prevalencia ajustada"
+          href: COVID19_ws2.html
+        - text: "Análisis institucional"
+          href: COVID19_ws3.html
+        - text: "---------"
+    - text: "Notas metodológicas"
+      href: Notas.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    include:
+      after_body: footer.html
+    css: flatly.css
+output_dir: "."  

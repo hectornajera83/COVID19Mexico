@@ -1,0 +1,34 @@
+---
+title: "Notas generales"
+---
+
+# 1. Datos: 
+
+Toda la información para la producción de las estadísticas del sitio se obtiene diariamente de: https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico  
+
+La información es abierta, gratuita y pública. 
+
+# 2. Software:
+
+Rstan: 
+
+Stan Development Team (2018). RStan: the R interface to Stan. R package version 2.18.2. http://mc-stan.org/
+
+El paquete `brms()` de R: 
+
+Paul-Christian Bürkner (2017). brms: An R Package for Bayesian Multilevel Models Using Stan. Journal of Statistical Software, 80(1), 1-28. doi:10.18637/jss.v080.i01
+
+Estimación de probabilidades a partir de los resultados del modelo.
+
+Los paquetes `ggpredict()` de R. Con auxilio de `ggplot2()`. 
+
+Lüdecke D (2018). “ggeffects: Tidy Data Frames of Marginal Effects from Regression Models.” _Journal of Open Source Software_, *3*(26), 772.
+doi: 10.21105/joss.00772 (URL: http://doi.org/10.21105/joss.00772).
+
+H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+
+# 3. Créditos
+
+Las estimaciones y procesamiento de los datos se hacen por el Dr. Héctor E. Nájera Catalán (PUED-UNAM) (hecatalan@hotmail.com; pthen@bristol.ac.uk).  
+
+PUED-UNAM: http://www.pued.unam.mx/

@@ -1,0 +1,437 @@
+---
+title: "Covid19-México."
+output: 
+  html_document:
+    orientation: columns
+    vertical_layout: fill
+    logo: logo2.png
+    bootstrap_version: 4+3
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(foreign)
+library(ggeffects)
+library(jtools)
+library(huxtable)
+library(ggplot2)
+library(haven)
+library(fastDummies)
+
+D<-read_dta("COVID19.dta")
+D1<-subset(D, D$resultado==1)
+
+
+
+D1<-dummy_cols(D1, select_columns = c("obesidad","sector","diabetes","lastWeek","embarazo","intubado","asma", "tabaquismo", "inmusupr",
+                                      "hipertension","renal_cronica","cardiovascular","habla_lengua_indig", "sexo"))
+
+D1[,51:101]<-lapply(D1[,51:101], function(x) ifelse(x==0,.000000001,1))
+
+```
+
+```{r echo=FALSE}
+load("Model.B")
+```
+
+## Probabilidad (prevalencia) ajustada: sector y estado {.tabset} 
+
+### Sector
+
+
+```{r echo=FALSE}
+sector.4<-ggpredict(Model.B, terms = c("sector_4 [1]"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.6<-ggpredict(Model.B, terms = c("sector_6 [1]"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sector_4 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.8<-ggpredict(Model.B, terms = c("sector_8 [1]"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sector_6 = .1,
+                                                               sector_4 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.9<-ggpredict(Model.B, terms = c("sector_9 [1]"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_4 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.11<-ggpredict(Model.B, terms = c("sector_11 [1]"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_4 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.12<-ggpredict(Model.B, terms = c("sector_12 [1]"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_4 = .1,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.0<-ggpredict(Model.B, terms = c("sector_9 [0]"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_12 = .1,
+                                                               sector_11 = .1,
+                                                               sector_4 = .1,
+                                                               sexo_1 = .5,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+
+sector.4r<-ggpredict(Model.B, terms = c("sector_4 [1]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               obesidad_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sector_6 = .05,
+                                                               sector_8 = .05,
+                                                               sector_9 = .05,
+                                                               sector_11 = .05,
+                                                               sector_12 = .05,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.6r<-ggpredict(Model.B, terms = c("sector_6 [1]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               obesidad_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sector_4 = .05,
+                                                               sector_8 = .05,
+                                                               sector_9 = .05,
+                                                               sector_11 = .05,
+                                                               sector_12 = .05,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.8r<-ggpredict(Model.B, terms = c("sector_8 [1]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               obesidad_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sector_6 = .05,
+                                                               sector_4 = .05,
+                                                               sector_9 = .05,
+                                                               sector_11 = .05,
+                                                               sector_12 = .05,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.9r<-ggpredict(Model.B, terms = c("sector_9 [1]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               obesidad_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sector_6 = .05,
+                                                               sector_8 = .05,
+                                                               sector_4 = .05,
+                                                               sector_11 = .05,
+                                                               sector_12 = .05,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.11r<-ggpredict(Model.B, terms = c("sector_11 [1]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               obesidad_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sector_6 = .05,
+                                                               sector_8 = .05,
+                                                               sector_9 = .05,
+                                                               sector_4 = .05,
+                                                               sector_12 = .05,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.12r<-ggpredict(Model.B, terms = c("sector_12 [1]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               obesidad_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               embarazo_2 = .05,
+                                                               sector_6 = .05,
+                                                               sector_8 = .05,
+                                                               sector_9 = .05,
+                                                               sector_11 = .05,
+                                                               sector_4 = .05,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+sector.0r<-ggpredict(Model.B, terms = c("sector_9 [0]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               obesidad_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               embarazo_2 = .05,
+                                                               sector_6 = .05,
+                                                               sector_8 = .05,
+                                                               sector_12 = .05,
+                                                               sector_11 = .05,
+                                                               sector_4 = .05,
+                                                               sexo_1 = .5,
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+
+
+sector.p<-rbind(sector.0,sector.4,sector.6,sector.8,sector.9,sector.11,sector.12)
+sector.p<-rbind(sector.p,sector.0r,sector.4r,sector.6r,sector.8r,sector.9r,sector.11r,sector.12r)
+sector.p$Institucion <- c("OTRO", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA","OTRO", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA")
+sector.p$riesgo<-rep(c("Medio","Alto"),each=7)
+
+ggplot(sector.p, aes(x = Institucion, y = predicted*100, colour=riesgo, group=riesgo)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sector Salud", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+   ylim(c(0,30))  +
+  theme_classic() +   scale_color_hue(l=40, c=70) 
+```
+
+### Entidad 
+
+```{r echo=FALSE, include=FALSE}
+Model<- glm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3 + as.factor(entidad_res), data = D1, family = "binomial", trace = TRUE, epsilon = 1e-10)
+```
+
+```{r echo=FALSE}
+entidad.m<-ggpredict(Model, terms = c("entidad_res [1:32]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               obesidad_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               embarazo_2 = .05,
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+entidad.r<-ggpredict(Model, terms = c("entidad_res [1:32]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .01,
+                                                               diabetes_2= .01,
+                                                               obesidad_2= .01,
+                                                               cardiovascular_2 = .01,
+                                                               habla_lengua_indig_2 = .01,
+                                                               renal_cronica_2 = .01,
+                                                               hipertension_2 = .01,
+                                                               inmusupr_2 = .01,
+                                                               asma_2 = .01,
+                                                               sexo_1 = .01,
+                                                               embarazo_2 = .05,
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+entidad.m$riesgo<-"Medio"
+entidad.r$riesgo<-"Alto"
+entidad.p<-rbind(entidad.m,entidad.r)
+entidad.p<-entidad.p[order(entidad.p$x),]
+
+entidad.p$Entidad<-rep(c("Aguascalientes","Baja California","Baja California Sur","Campeche","Coahuila","Colima",
+                      "Chiapas","Chihuahua","Ciudad de México","Durango","Guanajuato","Guerrero","Hidalgo","Jalisco",
+                       "México","Michoacán", "Morelos","Nayarit","Nuevo León", "Oaxaca","Puebla","Querétaro","Quintana Roo",
+                       "San Luis Potosí", "Sinaloa","Sonora", "Tabasco", "Tamaulipas","Tlaxcala","Veracruz","Yucatán", "Zacatecas"), each=2)
+
+
+ggplot(entidad.p, aes(x = reorder(Entidad, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Entidad", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+   ylim(c(0,55))   +
+  theme_classic() +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + scale_color_hue(l=15, c=70) 
+
+```
+
+
+### Tiempo atención
+
+```{r echo=FALSE}
+tiempo.m<-ggpredict(Model.B, terms = c("f_gap [0:7]"), ci.lvl = 0.95, condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               obesidad_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+tiempo.r<-ggpredict(Model.B, terms = c("f_gap [0:7]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               obesidad_2 = .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sexo_2 = .5,
+                                                               sector_4 = .05,
+                                                               sector_6 = .05,
+                                                               sector_8 = .05,
+                                                               sector_9 = .05,
+                                                               sector_11 = .05,
+                                                               sector_12 = .05,
+                                                               lastWeek_1 = .05,
+                                                               lastWeek_2 = .05,
+                                                               lastWeek_3 = .05))
+
+
+tiempo.m$riesgo<-"Medio"
+tiempo.r$riesgo<-"Alto"
+tiempo.p<-rbind(tiempo.m,tiempo.r)
+
+
+ggplot(data=tiempo.p, aes(x, predicted*100, group = riesgo)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100, fill=riesgo),  alpha=.6) + labs(x = "Días desde el inicio de síntomas hasta la atención", y = "Probabilidad de Muerte (%)") + ylim(c(0,41)) + geom_line() + theme_classic() + theme(legend.position="bottom") + labs(fill = "Riesgo factores de salud") 
+
+```

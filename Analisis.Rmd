@@ -1,0 +1,19 @@
+---
+title: "Análisis de datos"
+---
+
+
+> Este sitio,  <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico " target="_blank">con base en información pública</a>, reporta:
+
+>>
+> * Prevalencia cruda de muertes por COVID-19 por grupos de población y padecimientos <a href="file:///C:/OneDrive/Proyectos%20Investigacion/COVID19/_site/COVID19_ws1.html" class="btn btn-info">Prevalencia cruda</a>
+> * Prevalencia ajustada de muertes por COVID-19 por grupos de población y padecimientos <a href="file:///C:/OneDrive/Proyectos%20Investigacion/COVID19/_site/COVID19_ws2.html" class="btn btn-info">Prevalencia ajustada</a>
+> * Prevalencia ajustada de muertes por COVID-19 según características de la atención <a href="file:///C:/OneDrive/Proyectos%20Investigacion/COVID19/_site/COVID19_ws3.html" class="btn btn-info">Análisis institucional</a>
+
+<div class="alert alert-dismissible alert-warning">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>Atención!</h4>
+  <p>La información se actualiza diariamente <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico " class="alert-link">Información pública</a>.</p>
+</div>
+
+

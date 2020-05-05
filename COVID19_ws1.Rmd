@@ -1,0 +1,172 @@
+---
+title: "Covid19-México"
+output: 
+  html_document:
+    orientation: columns
+    vertical_layout: fill
+    logo: logo2.png
+    bootstrap_version: 4+3
+    theme: cosmo
+---
+
+```{r}
+file.create('.nojekyll')
+```
+
+
+```{r setup, include=FALSE}
+library(foreign)
+library(ggeffects)
+library(jtools)
+library(huxtable)
+library(ggplot2)
+library(haven)
+library(fastDummies)
+
+D<-read_dta("COVID19.dta")
+D1<-subset(D, D$resultado==1)
+
+
+
+D1<-dummy_cols(D1, select_columns = c("obesidad","sector","diabetes","lastWeek","embarazo","intubado","asma", "tabaquismo", "inmusupr",
+                                      "hipertension","renal_cronica","cardiovascular","habla_lengua_indig", "sexo"))
+
+D1[,51:101]<-lapply(D1[,51:101], function(x) ifelse(x==0,.000000001,1))
+
+```
+
+```{r echo=FALSE, include=FALSE, eval=FALSE}
+Model<- glm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D1, family = "binomial", trace = TRUE, epsilon = 1e-10)
+#export_summs(Model)
+```
+
+```{r eval=FALSE, include=FALSE}
+library(brms)
+library(dplyr)
+D1a<-sample_n(D1,5000)
+
+Model.B<-brm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D1, prior = c(set_prior("normal(0,10)", class="b"),
+                                set_prior("student_t(3,0,5)", class="Intercept"),
+                                set_prior("normal(0,1)", class="b", coef="sector_4"),
+                                set_prior("normal(0,1)", class="b", coef="sector_6"),
+                                set_prior("normal(0,2)", class="b", coef="sector_11"),
+                                set_prior("normal(0,2)", class="b", coef="sector_8"),
+                                set_prior("normal(0,1)", class="b", coef="sector_9")),
+ family = "bernoulli", chains=4, cores=4, iter = 900, control = list(max_treedepth = 12))
+
+save(Model.B,file="Model.B")
+```
+
+```{r echo=FALSE}
+load("Model.B")
+```
+
+## Prevalencia cruda: condiciones de salud y demográficas {.tabset} 
+
+### Prevalencia (cruda) por padecimiento
+
+```{r eval=T, include=FALSE}
+library(descr)
+library(reshape2)
+library(tidyr)
+tab<-lapply(D1[,c("obesidad_2","diabetes_2","asma_2","tabaquismo_2","inmusupr_2","hipertension_2","renal_cronica_2","cardiovascular_2")], function(x) crosstab(x, D1$death, prop.r=TRUE))
+tab1<-sapply(tab, function(x) {
+     x<-x$prop.row[,2]
+     x
+}
+)
+
+tab1<-as.data.frame(tab1)
+tab1$id<-c(0:1)
+tab.m<-melt(tab1, id.vars = "id")
+tab.m$label<-ifelse(tab.m$id==1,"Sin padecimiento", "Con padecimiento")
+tab.m$padecimiento<-rep(c("Obesidad","Diabetes","Asma","Tabaquismo","Inmunosupresores","Hipertensión","Renal Crónica","Cardiovascular"), each=2)
+```
+
+```{r echo=FALSE}
+ggplot(tab.m) + geom_point(aes(padecimiento, value*100, color=label), size=5) + 
+  labs(y = "% de muertes dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=55)
+```
+
+### Prevalencia (cruda) de muerte por sexo
+
+```{r include=FALSE}
+sexo<-crosstab(D1$sexo,D1$death,prop.r=TRUE)
+```
+
+```{r include=FALSE}
+sexo<-as.data.frame(sexo$prop.row*100)
+sexo<-sexo[c(3:4),]
+
+sexo$Sexo<-ifelse(sexo$D1.sexo==1,"Mujer","Hombre")
+```
+
+```{r echo=FALSE}
+ggplot(sexo) + geom_point(aes(reorder(Sexo,Freq), Freq), size=7, shape=18, colour="#405d27") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Sexo") + ylim(c(5,20))
+```
+
+
+### Prevalencia (cruda) de muerte por grupo de edad
+
+```{r include=FALSE}
+library(car)
+D1$g.edad<-car::recode(D1$edad, "0:10='0-10'; 11:20='11-20' ; 21:30='21-30'; 31:40='31-40'; 41:50='41-50' ; 51:60='51-60' ; 61:70='61-70' ; 71:80='71-80' ; 81:90='81-90' ; else='90+'")
+edad<-crosstab(D1$g.edad,D1$death,prop.r=TRUE)
+```
+
+```{r include=FALSE}
+edad<-as.data.frame(edad$prop.row*100)
+edad<-edad[c(9:16),]
+```
+
+```{r echo=FALSE}
+ggplot(edad) + geom_point(aes(D1.g.edad, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Entidad")
+```
+
+### Prevalencia (cruda) de muerte por estado residencia
+
+```{r include=FALSE}
+edo<-crosstab(D1$entidad_res,D1$death,prop.r=TRUE)
+```
+
+```{r include=FALSE}
+edo<-as.data.frame(edo$prop.row*100)
+edo<-edo[c(33:64),]
+```
+
+```{r echo=FALSE}
+ggplot(edo) + geom_point(aes(reorder(D1.entidad_res,Freq), Freq), size=5) + theme_classic() + labs(y="% de muertes dentro del grupo", x="Entidad")
+```
+
+
+### Prevalencia (cruda) de muerte por condición indígena
+
+```{r include=FALSE}
+indigena<-crosstab(D1$habla_lengua_indig,D1$death,prop.r=TRUE)
+```
+
+```{r include=FALSE}
+indigena<-as.data.frame(indigena$prop.row*100)
+indigena<-indigena[c(4:5),]
+
+indigena$Indigena<-ifelse(indigena$D1.habla_lengua_indig==1,"Habla lengua indígena","No habla lengua indígena")
+```
+
+```{r echo=FALSE}
+ggplot(indigena) + geom_point(aes(reorder(Indigena,Freq), Freq), size=7, shape=17, colour="#A52A2A") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Lengua indígena") + ylim(c(8,20))
+```
+
+### Nota: Prevalencia cruda
+
+#### Significado e interpretación
+
+La Prevalencia cruda es la proporción de muertes dentro de cada grupo poblacional. Por ejemplo, considere 100 mujeres y 100 hombres con una prevalencia cruda igual a 15% y 25%, respectivamente. Esto signfica que el 25% de los hombres con el padecimiento murió. 
+
+LIMITACIÓN: Se trata entonces de un estadístico simple pero sin ajuste. Es decir, no considera la composición dentro de cada grupo. Por ejemplo, si dentro del grupo de hombres 90% tuviera diabetes (mientras que tan sólo el 10% de las mujeres tuviera diabetes), la prevalencia cruda no podría distinguir el efecto estadístico de la diabetes respecto a la condición de ser hombre. En otras palabras, no se puede concluir que la diferencia observada de 10% entre hombre y mujeres es por la condición de sexo *-los hombres no tienen necesariamente 10% más riesgo que las mujeres de morir-*. En este ejemplo, la diferencia se explica mayormente por diabetes que por sexo. 
+
+Si su busca hacer interpretaciones más *robustas*, se recomienda usar las **prevalencias/probabilidades ajustadas** reportadas en este mismo portal. 
+
+Los datos se actualizan diariamente con información oficial de: https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico 
+
+
+

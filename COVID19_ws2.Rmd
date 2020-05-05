@@ -1,0 +1,346 @@
+---
+title: "Covid19-México"
+output: 
+  html_document:
+    orientation: columns
+    vertical_layout: fill
+    logo: logo2.png
+    bootstrap_version: 4+3
+    theme: cosmo
+---
+
+``` {r include=FALSE}
+library(bootstraplib)
+bs_theme_new()
+# Color palette derives from https://tombrow.com/dark-mode-website-css
+bs_theme_base_colors(bg = "#444", fg = "#e4e4e4")
+bs_theme_accent_colors(primary = "#e39777", secondary = "#fdce93")
+```
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(foreign)
+library(ggeffects)
+library(jtools)
+library(huxtable)
+library(ggplot2)
+library(haven)
+library(fastDummies)
+
+D<-read_dta("COVID19.dta")
+D1<-subset(D, D$resultado==1)
+
+
+
+D1<-dummy_cols(D1, select_columns = c("obesidad","sector","diabetes","lastWeek","embarazo","intubado","asma", "tabaquismo", "inmusupr",
+                                      "hipertension","renal_cronica","cardiovascular","habla_lengua_indig", "sexo"))
+
+D1[,51:101]<-lapply(D1[,51:101], function(x) ifelse(x==0,.000000001,1))
+
+```
+
+```{r echo=FALSE, include=FALSE}
+Model<- glm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D1, family = "binomial", trace = TRUE, epsilon = 1e-10)
+#export_summs(Model)
+```
+
+```{r eval=FALSE, include=FALSE}
+library(brms)
+library(dplyr)
+#D1a<-sample_n(D1,5000)
+
+Model.B<-brm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D1, prior = c(set_prior("normal(0,10)", class="b"),
+                                set_prior("student_t(3,0,5)", class="Intercept"),
+                                set_prior("normal(0,1)", class="b", coef="sector_4"),
+                                set_prior("normal(0,1)", class="b", coef="sector_6"),
+                                set_prior("normal(0,1)", class="b", coef="sector_11"),
+                                set_prior("normal(0,1)", class="b", coef="sector_8"),
+                                set_prior("normal(0,1)", class="b", coef="sector_9")),
+ family = "bernoulli", chains=4, cores=4, iter = 800, control = list(max_treedepth = 11))
+
+save(Model.B,file="Model.B")
+```
+
+```{r echo=FALSE}
+load("Model.B")
+```
+
+
+## Probabilidad (prevalencia) ajustada: condiciones de salud y demográficas {.tabset} 
+
+### Edad
+
+```{r echo=FALSE}
+edad.p<-ggpredict(Model.B, terms = c("edad [0:90]"))
+
+ggplot(data=edad.p, aes(x, predicted*100)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100), fill = "#B4045F", alpha=.5) + 
+  labs(x = "Edad", y = "Probabilidad de Muerte (%)") + 
+  geom_line() + theme_classic()
+```
+
+### Obesidad
+
+```{r echo=FALSE}
+obesidad.m<-ggpredict(Model.B, terms = c("obesidad_2"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+obesidad.r<-ggpredict(Model.B, terms = c("obesidad_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+obesidad.m$riesgo<-"Medio"
+obesidad.r$riesgo<-"Alto"
+obesidad<-rbind(obesidad.m,obesidad.r)
+
+
+obesidad$x<-ifelse(obesidad$x==1,"Sin Obesidad","Con Obesidad")
+
+ggplot(obesidad, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Condición de obesidad", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+   ylim(c(4,30)) + 
+  theme_classic() +   scale_color_hue(l=40, c=90) 
+
+
+```
+
+### Diabetes
+
+```{r echo=FALSE}
+diabetes.m<-ggpredict(Model.B, terms = c("diabetes_2"), condition = c(tabaquismo_2 = .5,
+                                                               obesidad_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+diabetes.r<-ggpredict(Model.B, terms = c("diabetes_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               obesidad_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+diabetes.m$riesgo<-"Medio"
+diabetes.r$riesgo<-"Alto"
+diabetes<-rbind(diabetes.m,diabetes.r)
+
+diabetes$x<-ifelse(diabetes$x==1,"Sin Diabetes","Con Diabetes")
+
+ggplot(diabetes, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Condición de diabetes", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+   ylim(c(4,30)) + 
+  theme_classic() +   scale_color_manual(values=c("#d64161", "#6b5b95"))
+
+```
+
+### Hipertensión
+
+```{r echo=FALSE}
+hipertension.m<-ggpredict(Model.B, terms = c("hipertension_2"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               renal_cronica_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+hipertension.r<-ggpredict(Model.B, terms = c("hipertension_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               obesidad_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               renal_cronica_2 = .05,
+                                                               diabetes_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+hipertension.m$riesgo<-"Medio"
+hipertension.r$riesgo<-"Alto"
+hipertension<-rbind(hipertension.m,hipertension.r)
+
+hipertension$x<-ifelse(hipertension$x==1,"Sin hipertensión","Con hipertensión")
+
+ggplot(hipertension, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Condición de hipertensión", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+   ylim(c(4,30)) + 
+ theme_classic() + scale_color_manual(values=c("#484f4f", "#bd5734"))
+
+```
+
+### Enfermedad renal crónica
+
+```{r echo=FALSE}
+renal.m<-ggpredict(Model.B, terms = c("renal_cronica_2"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               cardiovascular_2 = .5,
+                                                               habla_lengua_indig_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               obesidad_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sexo_1 = .5,
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+renal.r<-ggpredict(Model.B, terms = c("renal_cronica_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               obesidad_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               habla_lengua_indig_2 = .05,
+                                                               diabetes_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sexo_1 = .5,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+renal.m$riesgo<-"Medio"
+renal.r$riesgo<-"Alto"
+renal<-rbind(renal.m,renal.r)
+
+renal$x<-ifelse(renal$x==1,"Sin enfermedad renal","Con enfermedad renal")
+
+ggplot(renal, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Enfermedad renal crónica", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+   ylim(c(4,30)) + 
+ theme_classic() + scale_color_manual(values=c("#c1502e", "#587e76"))
+
+```
+
+### Efecto: Obesidad y Diabetes
+
+```{r}
+plot(ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2")))
+```
+
+
+### Nota: Probabilidad ajustada
+
+#### Significado e interpretación
+
+La probabilidad ajustada es la proporción de muertes atribuibles a cierto factor -después de considerar otras características-. Por ejemplo, considere 100 personas con diabetes y 100 personas sin diabetes con probabilidades ajustadas de 25% y 15%, respectivamente. Esto signfica que -en promedio- el efecto de diabetes sobre la probabildidad de muerte es de 10%. En otras palabras, las personas con diabetes tiene 10% más riesgo de morir que las que no tienen diabetes. 
+
+#### **Significado de riesgo medio y alto**
+
+Riesgo medio: Es la probabilidad de muerte atribuible al factor en cuestion -e.g. diabetes- considerando las otras características a la media. Es decir, es la probabilidad de muerte para diabeticos y no diabeticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta "normal o típica".
+
+Riesgo alto: Es la probabilidad de muerte atribuible al factor en cuestion -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de muerte para diabeticos y no diabeticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.
+
+#### **Método para cálculo de probabildades**
+
+Las probabilidades se obtienen en dos pasos:
+
+* Estimación de modelo bayesiano de regresión binaria. Para la estimación se usaron los siguientes programas:
+
+Rstan: 
+
+Stan Development Team (2018). RStan: the R interface to Stan. R package version 2.18.2. http://mc-stan.org/
+
+El paquete `brms()` de R: 
+
+Paul-Christian Bürkner (2017). brms: An R Package for Bayesian Multilevel Models Using Stan. Journal of Statistical Software, 80(1), 1-28. doi:10.18637/jss.v080.i01
+
+* Estimación de probabilidades a partir de los resultados del modelo.
+
+Los paquetes `ggpredict()` de R. Con auxilio de `ggplot2()`. 
+
+Lüdecke D (2018). “ggeffects: Tidy Data Frames of Marginal Effects from Regression Models.” _Journal of Open Source Software_, *3*(26), 772.
+doi: 10.21105/joss.00772 (URL: http://doi.org/10.21105/joss.00772).
+
+H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+
+* Datos
+
+Los datos se actualizan diariamente con información oficial de: https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico 

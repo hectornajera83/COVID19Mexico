@@ -2,8 +2,6 @@
 title: "Resumen factores de riesgo"
 ---
 
-# Resumen efecto de factores de riesgo
-
 El siguiente cuadro muestra la relación de distintos factores demográficos, institucionales y de salud con el riesgo de muerte de COVID-19 en México. Los resultados de la columna *incremento* se obtuvieron de un modelo de regresión bayesiano descrito en la sección Notas.
 
 * Incremento alto en riesgo: Existe cuando el factor en cuestión tiene signo positivo en el modelo y el intervalo de confianza creible no contiene cero al 95%.

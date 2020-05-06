@@ -18,6 +18,8 @@ navbar:
           href: COVID19_ws2.html
         - text: "Análisis institucional"
           href: COVID19_ws3.html
+        - text: "Resumen factores riesgo"
+          href: resumen.html
         - text: "---------"
     - text: "Notas metodológicas"
       href: Notas.html

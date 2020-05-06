@@ -333,7 +333,12 @@ $(document).ready(function () {
 
 <div id="resumen-efecto-de-factores-de-riesgo" class="section level1">
 <h1>Resumen efecto de factores de riesgo</h1>
-<p>La siguiente tabla muestra la relación de distintos factores demográficos, institucionales y de salud con el riesgo de muerte de COVID-19 en México. Los resultados de la columna incremento se obtuvieron de un modelo de regresión bayesiano.</p>
+<p>El siguiente cuadro muestra la relación de distintos factores demográficos, institucionales y de salud con el riesgo de muerte de COVID-19 en México. Los resultados de la columna <em>incremento</em> se obtuvieron de un modelo de regresión bayesiano descrito en la sección Notas.</p>
+<ul>
+<li>Incremento alto en riesgo: Existe cuando el factor en cuestión tiene signo positivo en el modelo y el intervalo de confianza creible no contiene cero al 95%.</li>
+<li>Reducción en riesgo: Existe cuando el factor en cuestión tiene signo negativo en el modelo y el intervalo de confianza creible no contiene cero al 95%.</li>
+<li>Sin evidencia de su efecto: El intervalo de confianza creible contiene cero.</li>
+</ul>
 <table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>

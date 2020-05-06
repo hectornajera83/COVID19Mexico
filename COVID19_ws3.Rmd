@@ -37,7 +37,7 @@ load("Model.B")
 
 ## Probabilidad (prevalencia) ajustada: sector y estado {.tabset} 
 
-Esta sección muestra la (<a href="https://hectornajera83.github.io/COVID19Mexico/Notas.html"> prevalencia ajustada</a>) de muertes según distintas condiciones del sistema de salud y por estado. A diferencia de la  (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html"> prevalencia cruda</a>), se trata de estimaciones que permiten hacer conclusiones más robustas sobre los factores de riesgo de muerte por COVID-19.
+Esta sección muestra la (<a href="https://hectornajera83.github.io/COVID19Mexico/Notas.html"> prevalencia ajustada</a>) de fallecimientos según distintas condiciones del sistema de salud y por estado. A diferencia de la  (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html"> prevalencia cruda</a>), se trata de estimaciones que permiten hacer conclusiones más robustas sobre los factores de riesgo de fallecimiento por COVID-19.
 
 Todas las gráficas reconocen la incertidumbre de la estimación y se incluyen (<a href="https://en.wikipedia.org/wiki/Credible_interval" target="_blank">intervalos creíbles</a>) al 95% . Esto signfica que, con una probabilidad de 95%, el valor observado se ubica en el rango mostrado en la gráfica. 
 
@@ -379,7 +379,7 @@ sector.p$riesgo<-rep(c("Medio","Alto"),each=8)
 
 ggplot(sector.p, aes(x = reorder(Institucion, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
-  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sector Salud", y="Probabilidad muerte (%). CI 95%", color = "Riesgo factores de salud") + 
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sector Salud", y="Probabilidad fallecimiento (%). CI 95%", color = "Riesgo factores de salud") + 
    ylim(c(0,40))  +
   theme_classic() +   scale_color_hue(l=40, c=70) + theme(legend.position = "bottom")
 ```
@@ -446,7 +446,7 @@ entidad.p$Entidad<-rep(c("Aguascalientes","Baja California","Baja California Sur
 
 ggplot(entidad.p, aes(x = reorder(Entidad, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
-  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Entidad", y="Probabilidad muerte (%). CI 95%", color = "Riesgo factores de salud") + 
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Entidad", y="Probabilidad fallecimiento (%). CI 95%", color = "Riesgo factores de salud") + 
    ylim(c(0,55))   +
   theme_classic() +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + scale_color_hue(l=15, c=70) 
 
@@ -502,7 +502,7 @@ tiempo.r$riesgo<-"Alto"
 tiempo.p<-rbind(tiempo.m,tiempo.r)
 
 
-ggplot(data=tiempo.p, aes(x, predicted*100, group = riesgo)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100, fill=riesgo),  alpha=.6) + labs(x = "Días desde el inicio de síntomas hasta la atención", y = "Probabilidad de Muerte (%). 95% CI") + ylim(c(0,41)) + geom_line() + theme_classic() + theme(legend.position="bottom") + labs(fill = "Riesgo factores de salud") 
+ggplot(data=tiempo.p, aes(x, predicted*100, group = riesgo)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100, fill=riesgo),  alpha=.6) + labs(x = "Días desde el inicio de síntomas hasta la atención", y = "Probabilidad de fallecimiento (%). 95% CI") + ylim(c(0,41)) + geom_line() + theme_classic() + theme(legend.position="bottom") + labs(fill = "Riesgo factores de salud") 
 
 ```
 
@@ -510,15 +510,15 @@ ggplot(data=tiempo.p, aes(x, predicted*100, group = riesgo)) + geom_ribbon(aes(y
 
 #### Significado e interpretación
 
-La probabilidad ajustada es la proporción de muertes atribuibles a cierta característica (por ejemplo, obesidad) después de controlar por ciertos factores en un modelo estadístico. En el caso más simple, el control se hace a los valores promedio de los otros factores. En los casos más complicados el ajuste se hace a valores específicos. Por ejemplo, la probabilidad de muerte para gente con obesidad para la población hipertensa, con diabetes, etc. 
+La probabilidad ajustada es la proporción de fallecimientos atribuibles a cierta característica (por ejemplo, obesidad) después de controlar por ciertos factores en un modelo estadístico. En el caso más simple, el control se hace a los valores promedio de los otros factores. En los casos más complicados el ajuste se hace a valores específicos. Por ejemplo, la probabilidad de Fallecimiento para gente con obesidad para la población hipertensa, con diabetes, etc. 
 
-Estos datos se interpretan de la siguiente manera. Considere a dos grupos de personas, uno con y otro sin diabetes, con probabilidades ajustadas de 25% y 15%, respectivamente. Esto significa que -en promedio- el efecto de diabetes sobre la probabilidad de muerte es de 10%. En otras palabras, las personas con diabetes tienen 10% más riesgo de morir que las que no tienen diabetes. 
+Estos datos se interpretan de la siguiente manera. Considere a dos grupos de personas, uno con y otro sin diabetes, con probabilidades ajustadas de 25% y 15%, respectivamente. Esto significa que -en promedio- el efecto de diabetes sobre la probabilidad de Fallecimiento es de 10%. En otras palabras, las personas con diabetes tienen 10% más riesgo de morir que las que no tienen diabetes. 
 
 #### **Significado de riesgo medio y alto**
 
-Riesgo medio: Es la probabilidad de muerte atribuible para la característica en cuestión -e.g. diabetes- considerando las otras características a sus valores promedio. Es decir, es la probabilidad de muerte para diabéticos y no diabéticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta "normal o típica".
+Riesgo medio: Es la probabilidad de Fallecimiento atribuible para la característica en cuestión -e.g. diabetes- considerando las otras características a sus valores promedio. Es decir, es la probabilidad de fallecimiento para diabéticos y no diabéticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta "normal o típica".
 
-Riesgo alto: Es la probabilidad de muerte atribuible para la característica -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de muerte para diabéticos y no diabéticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.
+Riesgo alto: Es la probabilidad de fallecimiento atribuible para la característica -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de fallecimiento para diabéticos y no diabéticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.
 
 #### **Método para cálculo de probabilidades**
 

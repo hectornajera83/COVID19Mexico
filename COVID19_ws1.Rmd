@@ -63,7 +63,7 @@ load("Model.B")
 
 ## Prevalencia cruda: condiciones de salud y demográficas {.tabset} 
 
-Esta sección muestra la proporción de muertes según distintas condiciones demográficas y de salud (Prevalencia cruda). Estas cifras no consideran ningún ajuste estadístico y, por tanto, no permiten concluir con confianza si cierto grupo tiene más riesgo de morir por COVID-19 que otro (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.html"> Ver prevalencia ajustada</a>). Se recomienda leer la *Nota: Prevalencia Cruda*. 
+Esta sección muestra la proporción de fallecimientos según distintas condiciones demográficas y de salud (Prevalencia cruda). Estas cifras no consideran ningún ajuste estadístico y, por tanto, no permiten concluir con confianza si cierto grupo tiene más riesgo de morir por COVID-19 que otro (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.html"> Ver prevalencia ajustada</a>). Se recomienda leer la *Nota: Prevalencia Cruda*. 
 
 ### Padecimientos
 
@@ -87,7 +87,7 @@ tab.m$padecimiento<-rep(c("Obesidad","Diabetes","Asma","Tabaquismo","Inmunosupre
 
 ```{r echo=FALSE}
 ggplot(tab.m) + geom_point(aes(reorder(padecimiento,value), value*100, color=label), size=5) + 
-  labs(y = "% de muertes dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=35)
+  labs(y = "% de fallecimientos dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=35)
 ```
 
 ### Sexo
@@ -104,7 +104,7 @@ sexo$Sexo<-ifelse(sexo$D1.sexo==1,"Mujer","Hombre")
 ```
 
 ```{r echo=FALSE}
-ggplot(sexo) + geom_point(aes(reorder(Sexo,Freq), Freq), size=7, shape=18, colour="#405d27") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Sexo") + ylim(c(5,20))
+ggplot(sexo) + geom_point(aes(reorder(Sexo,Freq), Freq), size=7, shape=18, colour="#405d27") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Sexo") + ylim(c(5,20))
 ```
 
 
@@ -122,7 +122,7 @@ edad<-edad[c(11:20),]
 ```
 
 ```{r echo=FALSE}
-ggplot(edad) + geom_point(aes(D1.g.edad, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Entidad")
+ggplot(edad) + geom_point(aes(D1.g.edad, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Entidad")
 ```
 
 ### Condición indígena
@@ -139,7 +139,7 @@ indigena$Indigena<-ifelse(indigena$D1.habla_lengua_indig==1,"Habla lengua indíg
 ```
 
 ```{r echo=FALSE}
-ggplot(indigena) + geom_point(aes(reorder(Indigena,Freq), Freq), size=7, shape=17, colour="#A52A2A") + theme_classic() + labs(y="% de muertes dentro del grupo", x="Lengua indígena") + ylim(c(8,20))
+ggplot(indigena) + geom_point(aes(reorder(Indigena,Freq), Freq), size=7, shape=17, colour="#A52A2A") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Lengua indígena") + ylim(c(8,20))
 ```
 
 
@@ -159,7 +159,7 @@ edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campech
 ```
 
 ```{r echo=FALSE}
-ggplot(edo) + geom_point(aes(reorder(Entidad,Freq), Freq), size=5) + theme_classic() + labs(y="% de muertes dentro del grupo", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
+ggplot(edo) + geom_point(aes(reorder(Entidad,Freq), Freq), size=5) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
 ```
 
 ### Sector salud
@@ -175,14 +175,14 @@ sector$Institucion<-c("Estatal", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", 
 ```
 
 ```{r echo=FALSE}
-ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq), size=4) + theme_classic() + labs(y="% de muertes dentro del grupo", x="Institución") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
+ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq), size=4) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Institución") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
 ```
 
 ### Nota: Prevalencia cruda
 
 #### Significado e interpretación
 
-La Prevalencia cruda es la proporción de muertes dentro de cada grupo poblacional. Por ejemplo, considere 100 mujeres y 100 hombres con una prevalencia cruda igual a 15% y 25%, respectivamente. Esto significa que el 25% de los hombres con el padecimiento murió. 
+La Prevalencia cruda es la proporción de fallecimientos dentro de cada grupo poblacional. Por ejemplo, considere 100 mujeres y 100 hombres con una prevalencia cruda igual a 15% y 25%, respectivamente. Esto significa que el 25% de los hombres con el padecimiento murió. 
 
 LIMITACIÓN: Se trata entonces de un estadístico simple, pero sin ajuste. Es decir, no considera la composición dentro de cada grupo. Por ejemplo, si dentro del grupo de hombres 90% tuviera diabetes (mientras que tan sólo el 10% de las mujeres tuviera diabetes), la prevalencia cruda no podría distinguir el efecto estadístico de la diabetes respecto a la condición de ser hombre. En otras palabras, no se puede concluir que la diferencia observada de 10% entre hombre y mujeres es por la condición de sexo *-los hombres no tienen necesariamente 10% más riesgo que las mujeres de morir-*. En este ejemplo, la diferencia se explica mayormente por diabetes que por sexo. 
 

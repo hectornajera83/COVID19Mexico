@@ -84,7 +84,7 @@ Se recomienda leer la *Nota: Prevalencia ajustada*.
 edad.p<-ggpredict(Model.B, terms = c("edad [0:90]"))
 
 ggplot(data=edad.p, aes(x, predicted*100)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100), fill = "#B4045F", alpha=.5) + 
-  labs(x = "Edad", y = "Probabilidad de Muerte (%)") + 
+  labs(x = "Edad", y = "Probabilidad de Muerte (%), 95% CI") + 
   geom_line() + theme_classic()
 ```
 

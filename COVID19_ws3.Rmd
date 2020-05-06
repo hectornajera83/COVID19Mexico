@@ -502,7 +502,7 @@ tiempo.r$riesgo<-"Alto"
 tiempo.p<-rbind(tiempo.m,tiempo.r)
 
 
-ggplot(data=tiempo.p, aes(x, predicted*100, group = riesgo)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100, fill=riesgo),  alpha=.6) + labs(x = "Días desde el inicio de síntomas hasta la atención", y = "Probabilidad de Muerte (%)") + ylim(c(0,41)) + geom_line() + theme_classic() + theme(legend.position="bottom") + labs(fill = "Riesgo factores de salud") 
+ggplot(data=tiempo.p, aes(x, predicted*100, group = riesgo)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100, fill=riesgo),  alpha=.6) + labs(x = "Días desde el inicio de síntomas hasta la atención", y = "Probabilidad de Muerte (%). 95% CI") + ylim(c(0,41)) + geom_line() + theme_classic() + theme(legend.position="bottom") + labs(fill = "Riesgo factores de salud") 
 
 ```
 

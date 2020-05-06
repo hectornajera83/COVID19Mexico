@@ -72,7 +72,7 @@ load("Model.B")
 
 ## Probabilidad (prevalencia) ajustada: condiciones de salud y demográficas {.tabset} 
 
-Esta sección muestra la (<a href="https://hectornajera83.github.io/COVID19Mexico/Notas.html"> prevalencia ajustada</a>) de muertes según distintas condiciones demográficas y de salud. A diferencia de la  (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html"> prevalencia cruda</a>), se trata de probabilidades que permiten hacer conclusiones más robustas sobre los factores de riesgo de muerte por COVID-19.
+Esta sección muestra la prevalencia ajustada de muertes según distintas condiciones demográficas y de salud. A diferencia de la  (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html"> prevalencia cruda</a>), se trata de probabilidades que permiten hacer conclusiones más robustas sobre los factores de riesgo de muerte por COVID-19.
 
 Todas las gráficas reconocen la incertidumbre de la estimación y se incluyen (<a href="https://en.wikipedia.org/wiki/Credible_interval" target="_blank">intervalos creíbles</a>) al 95% . Esto signfica que, con una probabilidad de 95%, el valor observado se ubica en el rango mostrado en la gráfica. 
 

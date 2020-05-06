@@ -379,7 +379,7 @@ sector.p$riesgo<-rep(c("Medio","Alto"),each=8)
 
 ggplot(sector.p, aes(x = reorder(Institucion, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
-  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sector Salud", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sector Salud", y="Probabilidad muerte (%). CI 95%", color = "Riesgo factores de salud") + 
    ylim(c(0,40))  +
   theme_classic() +   scale_color_hue(l=40, c=70) + theme(legend.position = "bottom")
 ```
@@ -446,7 +446,7 @@ entidad.p$Entidad<-rep(c("Aguascalientes","Baja California","Baja California Sur
 
 ggplot(entidad.p, aes(x = reorder(Entidad, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
-  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Entidad", y="Probabilidad muerte (%)", color = "Riesgo factores de salud") + 
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Entidad", y="Probabilidad muerte (%). CI 95%", color = "Riesgo factores de salud") + 
    ylim(c(0,55))   +
   theme_classic() +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + scale_color_hue(l=15, c=70) 
 

@@ -37,6 +37,12 @@ load("Model.B")
 
 ## Probabilidad (prevalencia) ajustada: sector y estado {.tabset} 
 
+Esta sección muestra la (<a href="https://hectornajera83.github.io/COVID19Mexico/Notas.html"> prevalencia ajustada</a>) de muertes según distintas condiciones del sistema de salud y por estado. A diferencia de la  (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html"> prevalencia cruda</a>), se trata de estimaciones que permiten hacer conclusiones más robustas sobre los factores de riesgo de muerte por COVID-19.
+
+Todas las gráficas reconocen la incertidumbre de la estimación y se incluyen (<a href="https://en.wikipedia.org/wiki/Credible_interval" target="_blank">intervalos creíbles</a>) al 95% . Esto signfica que, con una probabilidad de 95%, el valor observado se ubica en el rango mostrado en la gráfica. 
+
+Se recomienda leer la *Nota: Prevalencia ajustada*. 
+
 ### Sector
 
 
@@ -499,3 +505,44 @@ tiempo.p<-rbind(tiempo.m,tiempo.r)
 ggplot(data=tiempo.p, aes(x, predicted*100, group = riesgo)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100, fill=riesgo),  alpha=.6) + labs(x = "Días desde el inicio de síntomas hasta la atención", y = "Probabilidad de Muerte (%)") + ylim(c(0,41)) + geom_line() + theme_classic() + theme(legend.position="bottom") + labs(fill = "Riesgo factores de salud") 
 
 ```
+
+### Nota: Probabilidad ajustada
+
+#### Significado e interpretación
+
+La probabilidad ajustada es la proporción de muertes atribuibles a cierta característica (por ejemplo, obesidad) después de controlar por ciertos factores en un modelo estadístico. En el caso más simple, el control se hace a los valores promedio de los otros factores. En los casos más complicados el ajuste se hace a valores específicos. Por ejemplo, la probabilidad de muerte para gente con obesidad para la población hipertensa, con diabetes, etc. 
+
+Estos datos se interpretan de la siguiente manera. Considere a dos grupos de personas, uno con y otro sin diabetes, con probabilidades ajustadas de 25% y 15%, respectivamente. Esto significa que -en promedio- el efecto de diabetes sobre la probabilidad de muerte es de 10%. En otras palabras, las personas con diabetes tienen 10% más riesgo de morir que las que no tienen diabetes. 
+
+#### **Significado de riesgo medio y alto**
+
+Riesgo medio: Es la probabilidad de muerte atribuible para la característica en cuestión -e.g. diabetes- considerando las otras características a sus valores promedio. Es decir, es la probabilidad de muerte para diabéticos y no diabéticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta "normal o típica".
+
+Riesgo alto: Es la probabilidad de muerte atribuible para la característica -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de muerte para diabéticos y no diabéticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.
+
+#### **Método para cálculo de probabilidades**
+
+Las probabilidades se obtienen en dos pasos:
+
+* Estimación de modelo bayesiano de regresión binaria. Para la estimación se usaron los siguientes programas:
+
+Rstan: 
+
+Stan Development Team (2018). RStan: the R interface to Stan. R package version 2.18.2. http://mc-stan.org/
+
+El paquete `brms()` de R: 
+
+Paul-Christian Bürkner (2017). brms: An R Package for Bayesian Multilevel Models Using Stan. Journal of Statistical Software, 80(1), 1-28. doi:10.18637/jss.v080.i01
+
+* Estimación de probabilidades a partir de los resultados del modelo.
+
+Los paquetes `ggpredict()` de R. Con auxilio de `ggplot2()`. 
+
+Lüdecke D (2018). “ggeffects: Tidy Data Frames of Marginal Effects from Regression Models.” _Journal of Open Source Software_, *3*(26), 772.
+doi: 10.21105/joss.00772 (URL: http://doi.org/10.21105/joss.00772).
+
+H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+
+* Datos
+
+Los datos se actualizan diariamente con información oficial de: https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico

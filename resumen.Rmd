@@ -7,7 +7,9 @@ title: "Resumen factores de riesgo"
 El siguiente cuadro muestra la relación de distintos factores demográficos, institucionales y de salud con el riesgo de muerte de COVID-19 en México. Los resultados de la columna *incremento* se obtuvieron de un modelo de regresión bayesiano descrito en la sección Notas.
 
 * Incremento alto en riesgo: Existe cuando el factor en cuestión tiene signo positivo en el modelo y el intervalo de confianza creible no contiene cero al 95%.
+
 * Reducción en riesgo: Existe cuando el factor en cuestión tiene signo negativo en el modelo y el intervalo de confianza creible no contiene cero al 95%.
+
 * Sin evidencia de su efecto: El intervalo de confianza creible contiene cero. 
 
 ```{r echo=FALSE, warning=FALSE}
@@ -30,8 +32,7 @@ a<-a[,c(4,5)]
 a<-a[c(-1,-3,-12,-17,-20,-24,-25,-26,-27),]
 rownames(a) <- NULL
 kable(a) %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),  full_width = F, font_size = 14) %>%
-  row_spec(c(2,3,7), bold = T, color = "white", background = "#F62217") %>%
-  row_spec(c(9), bold = T, color = "white", background = "#E77471") %>%
+  row_spec(c(2,3,7,9), bold = T, color = "white", background = "#F62217") %>%
   row_spec(c(6,8,10,11,13,14,16), bold = T, color = "white", background = "#306754") %>%
   column_spec(1, width = "20em") %>%
   column_spec(2, width = "20em")

@@ -202,7 +202,7 @@ obesidad$x<-ifelse(obesidad$x==1,"Sin Obesidad","Con Obesidad")
 ggplot(obesidad, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Condición de obesidad", y="Probabilidad fallecimiento (%). CI 95%", color = "Riesgo factores de salud") + 
-   ylim(c(4,30)) + 
+   ylim(c(4,35)) + 
   theme_classic() +   scale_color_hue(l=40, c=90) 
 
 
@@ -379,7 +379,7 @@ cardiovascular$x<-ifelse(cardiovascular$x==1,"Sin cardiovascular","Con cardiovas
 ggplot(cardiovascular, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Condición de enfermedad cardiovascular", y="Probabilidad fallecimiento (%). CI 95%", color = "Riesgo factores de salud") + 
-   ylim(c(4,30)) + 
+   ylim(c(4,35)) + 
  theme_classic() + scale_color_manual(values=c("#051e3e", "#851e3e"))
 
 ```
@@ -438,7 +438,7 @@ renal$x<-ifelse(renal$x==1,"Sin enfermedad renal","Con enfermedad renal")
 ggplot(renal, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Enfermedad renal crónica", y="Probabilidad fallecimiento (%). CI 95%", color = "Riesgo factores de salud") + 
-   ylim(c(4,30)) + 
+   ylim(c(4,35)) + 
  theme_classic() + scale_color_manual(values=c("#4a4e4d", "#fe8a71"))
 
 ```

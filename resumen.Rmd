@@ -22,7 +22,7 @@ a<-as.data.frame(a)
 a$Factor<-c("Intercept","Tiempo atención","Tiempo atención 2", "Institución atención: Estatal","Institución atención: IMSS", "Institución atención: ISSSTE", "Institución atención: PEMEX", "Institución atención: PRIVADA", "Institución atención: SSA", "Institución atención: SEMAR", "Edad", "Edad 2", "No lengua habla indígena", "Sin Obesidad", "Sin enfermedad cardiovascular", "Sin enfermedad renal crónica", "Tabaquismo", "Sin hipertensión", "Sin inmunosupresores", "Asma", "Sin diabetes", "Embarazo", "Sexo",
             "Enfermo la última semana", "Enfermo hace dos semanas", "Enfermo hace tres semanas", "Linear")
 
-a$Efecto<-ifelse(a$`2.5%`>1 & a$`97.5%`<=2,"Incrementa riesgo",ifelse(a$`2.5%`>1 & a$`97.5%`>2,"Incremento alto en riesgo",ifelse(a$`97.5%`<1,"Reducción en riesgo","Sin evidencia de su efecto")))
+a$Efecto<-ifelse(a$`2.5%`>1 & a$`97.5%`<=2,"Incrementa riesgo",ifelse(a$`97.5%`<1,"Reducción en riesgo","Sin evidencia de su efecto"))
 
 row.names<-a
 

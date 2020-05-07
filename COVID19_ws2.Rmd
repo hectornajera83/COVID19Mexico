@@ -34,8 +34,7 @@ D1<-subset(D, D$resultado==1)
 D1<-dummy_cols(D1, select_columns = c("obesidad","sector","diabetes","lastWeek","embarazo","intubado","asma", "tabaquismo", "inmusupr",
                                       "hipertension","renal_cronica","cardiovascular","habla_lengua_indig", "sexo"))
 
-D1[,51:101]<-lapply(D1[,51:101], function(x) ifelse(x==0,.000000001,1))
-
+D1[,51:94]<-lapply(D1[,51:94], function(x) ifelse(x==0,.000000001,1))
 ```
 
 ```{r echo=FALSE, include=FALSE}
@@ -95,7 +94,8 @@ sexo.m<-ggpredict(Model.B, terms = c("sexo_1"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                obesidad_2=.5,
                                                                cardiovascular_2 = .5,
-                                                               habla_lengua_indig_2 = .5,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .5,
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
@@ -116,7 +116,8 @@ sexo.r<-ggpredict(Model.B, terms = c("sexo_1"), ci.lvl = 0.90, condition = c(tab
                                                                diabetes_2= .05,
                                                                obesidad_2= .05,
                                                                cardiovascular_2 = .05,
-                                                               habla_lengua_indig_2 = .05,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .05,
                                                                hipertension_2 = .05,
                                                                inmusupr_2 = .05,
@@ -142,7 +143,7 @@ sexo$x<-ifelse(sexo$x==1,"Mujer","Hombre")
 ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sexo", y="Probabilidad fallecimiento (%). CI 95%", color = "Riesgo factores de salud") + 
-   ylim(c(3,25)) + 
+   ylim(c(2,39)) + 
   theme_classic() +   scale_color_hue(l=30, c=80) 
 ```
 
@@ -152,7 +153,8 @@ ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
 obesidad.m<-ggpredict(Model.B, terms = c("obesidad_2"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                cardiovascular_2 = .5,
-                                                               habla_lengua_indig_2 = .5,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .5,
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
@@ -172,7 +174,8 @@ obesidad.m<-ggpredict(Model.B, terms = c("obesidad_2"), condition = c(tabaquismo
 obesidad.r<-ggpredict(Model.B, terms = c("obesidad_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
                                                                diabetes_2= .05,
                                                                cardiovascular_2 = .05,
-                                                               habla_lengua_indig_2 = .05,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .05,
                                                                hipertension_2 = .05,
                                                                inmusupr_2 = .05,
@@ -211,7 +214,8 @@ ggplot(obesidad, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
 diabetes.m<-ggpredict(Model.B, terms = c("diabetes_2"), condition = c(tabaquismo_2 = .5,
                                                                obesidad_2= .5,
                                                                cardiovascular_2 = .5,
-                                                               habla_lengua_indig_2 = .5,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .5,
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,
@@ -231,7 +235,8 @@ diabetes.m<-ggpredict(Model.B, terms = c("diabetes_2"), condition = c(tabaquismo
 diabetes.r<-ggpredict(Model.B, terms = c("diabetes_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
                                                                obesidad_2= .05,
                                                                cardiovascular_2 = .05,
-                                                               habla_lengua_indig_2 = .05,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .05,
                                                                hipertension_2 = .05,
                                                                inmusupr_2 = .05,
@@ -267,7 +272,8 @@ ggplot(diabetes, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
 hipertension.m<-ggpredict(Model.B, terms = c("hipertension_2"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                cardiovascular_2 = .5,
-                                                               habla_lengua_indig_2 = .5,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .5,
                                                                obesidad_2 = .5,
                                                                inmusupr_2 = .5,
@@ -287,7 +293,8 @@ hipertension.m<-ggpredict(Model.B, terms = c("hipertension_2"), condition = c(ta
 hipertension.r<-ggpredict(Model.B, terms = c("hipertension_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
                                                                obesidad_2= .05,
                                                                cardiovascular_2 = .05,
-                                                               habla_lengua_indig_2 = .05,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .05,
                                                                diabetes_2 = .05,
                                                                inmusupr_2 = .05,
@@ -313,7 +320,7 @@ hipertension$x<-ifelse(hipertension$x==1,"Sin hipertensión","Con hipertensión"
 ggplot(hipertension, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Condición de hipertensión", y="Probabilidad fallecimiento (%). CI 95%", color = "Riesgo factores de salud") + 
-   ylim(c(4,30)) + 
+   ylim(c(4,35)) + 
  theme_classic() + scale_color_manual(values=c("#484f4f", "#bd5734"))
 
 ```
@@ -324,7 +331,8 @@ ggplot(hipertension, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo))
 cardiovascular.m<-ggpredict(Model.B, terms = c("cardiovascular_2"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                hipertension_2 = .5,
-                                                               habla_lengua_indig_2 = .5,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .5,
                                                                obesidad_2 = .5,
                                                                inmusupr_2 = .5,
@@ -344,7 +352,8 @@ cardiovascular.m<-ggpredict(Model.B, terms = c("cardiovascular_2"), condition = 
 cardiovascular.r<-ggpredict(Model.B, terms = c("cardiovascular_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
                                                                obesidad_2= .05,
                                                                hipertension_2 = .05,
-                                                               habla_lengua_indig_2 = .05,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                renal_cronica_2 = .05,
                                                                diabetes_2 = .05,
                                                                inmusupr_2 = .05,
@@ -381,7 +390,8 @@ ggplot(cardiovascular, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo
 renal.m<-ggpredict(Model.B, terms = c("renal_cronica_2"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                cardiovascular_2 = .5,
-                                                               habla_lengua_indig_2 = .5,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                hipertension_2 = .5,
                                                                obesidad_2 = .5,
                                                                inmusupr_2 = .5,
@@ -401,7 +411,8 @@ renal.m<-ggpredict(Model.B, terms = c("renal_cronica_2"), condition = c(tabaquis
 renal.r<-ggpredict(Model.B, terms = c("renal_cronica_2"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
                                                                obesidad_2= .05,
                                                                cardiovascular_2 = .05,
-                                                               habla_lengua_indig_2 = .05,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                diabetes_2 = .05,
                                                                hipertension_2 = .05,
                                                                inmusupr_2 = .05,
@@ -437,7 +448,8 @@ ggplot(renal, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
 ```{r echo=FALSE}
 dia.obs<-ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2"), condition = c(tabaquismo_2 = .5,
                                                                cardiovascular_2 = .5,
-                                                               habla_lengua_indig_2 = .5,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
                                                                diabetes_2 = .5,
                                                                hipertension_2 = .5,
                                                                inmusupr_2 = .5,

@@ -1,5 +1,5 @@
 
-import delimited "C:\OneDrive\Proyectos Investigacion\COVID19\200503COVID19MEXICO", clear
+import delimited "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\200506COVID19MEXICO", clear
 
 *
 gen edad2 = edad^2
@@ -58,17 +58,26 @@ recode lastWeek (.=0)
 gen death=1 if f_def!=.
 recode death (.=0)
 
-save "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19.dta", replace 
+recode embarazo (2/98=2) (1=1)
+
+drop if cardiovascular==98 | tabaquismo==98 | hipertension==98 | renal_cronica==98 | obesidad==98 | diabetes==98 | inmusupr==98
+
+save "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\COVID19.dta", replace 
 
 * Modelo: (con o sin entidad)
 
-use "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19.dta", clear
+use "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\COVID19.dta", clear
 
 tab sector, gen(sector)
+tab habla_lengua_indig, gen(indigena)
 
-logit death f_gap f_gap2 sector4 sector6 sector8 sector9 sector11 sector12  intubado edad edad2 habla_lengua_indig ///
+logit death f_gap f_gap2 sector3 sector4 sector6 sector8 sector9 sector11 sector12 edad edad2 indigena2 ///
+ i.obesidad i.cardiovascular i.renal_cronica i.tabaquismo i.hipertension i.inmusupr ///
+ asma i.diabetes i.embarazo i.sexo i.lastWeek  if resultado==1, or
+ 
+ melogit death f_gap f_gap2 sector3 sector4 sector6 sector8 sector9 sector11 sector12 edad edad2 indigena2 ///
  i.obesidad cardiovascular renal_cronica tabaquismo hipertension inmusupr ///
- asma i.diabetes embarazo i.sexo i.lastWeek i.entidad_res if resultado==1, or
+ asma i.diabetes embarazo i.sexo i.lastWeek  if resultado==1 || entidad_res: , or
   
  margins , at(f_gap=(0(1)7))
  marginsplot

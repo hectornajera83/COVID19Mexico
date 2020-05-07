@@ -31,7 +31,6 @@ D<-read_dta("COVID19.dta")
 D1<-subset(D, D$resultado==1)
 
 
-
 D1<-dummy_cols(D1, select_columns = c("obesidad","sector","diabetes","lastWeek","embarazo","intubado","asma", "tabaquismo", "inmusupr",
                                       "hipertension","renal_cronica","cardiovascular","habla_lengua_indig", "sexo"))
 
@@ -49,7 +48,8 @@ library(brms)
 library(dplyr)
 #D1a<-sample_n(D1,7000)
 
-Model.B<-brm(death ~ 1 + f_gap + f_gap2  + sector_3 + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D1, prior = c(set_prior("normal(0,10)", class="b"),
+
+Model.B<-brm(death ~ 1 + f_gap + f_gap2  + sector_3 + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_1 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D1, prior = c(set_prior("normal(0,10)", class="b"),
                                 set_prior("student_t(3,0,5)", class="Intercept"),
                                 set_prior("normal(0,1)", class="b", coef="sexo_1"),
                                 set_prior("normal(0,1)", class="b", coef="embarazo_2"),

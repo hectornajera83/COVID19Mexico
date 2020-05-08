@@ -1,5 +1,5 @@
 
-import delimited "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\200506COVID19MEXICO", clear
+import delimited "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\200507COVID19MEXICO", clear
 
 *
 gen edad2 = edad^2

@@ -46,7 +46,7 @@ Se recomienda leer la *Nota: Prevalencia ajustada*.
 ### Sector
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 sector.3<-ggpredict(Model.B, terms = c("sector_3 [1]"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                cardiovascular_2 = .5,
@@ -402,11 +402,11 @@ ggplot(sector.p, aes(x = reorder(Institucion, predicted), y = predicted*100, col
 
 ### Entidad 
 
-```{r echo=FALSE, include=FALSE}
+```{r echo=FALSE, include=FALSE, warning=FALSE, message=FALSE}
 Model<- glm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3 + as.factor(entidad_res), data = D1, family = "binomial", trace = TRUE, epsilon = 1e-10)
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 entidad.m<-ggpredict(Model, terms = c("entidad_res [1:32]"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                obesidad_2= .5,
@@ -473,7 +473,7 @@ ggplot(entidad.p, aes(x = reorder(Entidad, predicted), y = predicted*100, colour
 
 ### Tiempo atención
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 tiempo.m<-ggpredict(Model.B, terms = c("f_gap [0:7]"), ci.lvl = 0.95, condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                obesidad_2= .5,

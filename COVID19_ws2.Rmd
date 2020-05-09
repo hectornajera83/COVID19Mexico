@@ -42,7 +42,7 @@ Model<- glm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + secto
 #export_summs(Model)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=FALSE, include=FALSE, warning=FALSE, message=FALSE}
 library(brms)
 library(dplyr)
 #D1a<-sample_n(D1,7000)
@@ -79,7 +79,7 @@ Se recomienda leer la *Nota: Prevalencia ajustada*.
 
 ### Edad
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 edad.p<-ggpredict(Model.B, terms = c("edad [0:90]"))
 
 ggplot(data=edad.p, aes(x, predicted*100)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100), fill = "#B4045F", alpha=.5) + 
@@ -89,7 +89,7 @@ ggplot(data=edad.p, aes(x, predicted*100)) + geom_ribbon(aes(ymin = conf.low*100
 
 ### Sexo
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 sexo.m<-ggpredict(Model.B, terms = c("sexo_1"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                obesidad_2=.5,
@@ -149,7 +149,7 @@ ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
 
 ### Obesidad
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 obesidad.m<-ggpredict(Model.B, terms = c("obesidad_2"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                cardiovascular_2 = .5,
@@ -210,7 +210,7 @@ ggplot(obesidad, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
 
 ### Diabetes
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 diabetes.m<-ggpredict(Model.B, terms = c("diabetes_2"), condition = c(tabaquismo_2 = .5,
                                                                obesidad_2= .5,
                                                                cardiovascular_2 = .5,
@@ -268,7 +268,7 @@ ggplot(diabetes, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
 
 ### Hipertensión
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 hipertension.m<-ggpredict(Model.B, terms = c("hipertension_2"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                cardiovascular_2 = .5,
@@ -327,7 +327,7 @@ ggplot(hipertension, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo))
 
 ### Cardiovascular
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 cardiovascular.m<-ggpredict(Model.B, terms = c("cardiovascular_2"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                hipertension_2 = .5,
@@ -386,7 +386,7 @@ ggplot(cardiovascular, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo
 
 ### Enfermedad renal crónica
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 renal.m<-ggpredict(Model.B, terms = c("renal_cronica_2"), condition = c(tabaquismo_2 = .5,
                                                                diabetes_2= .5,
                                                                cardiovascular_2 = .5,
@@ -445,7 +445,7 @@ ggplot(renal, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
 
 ### Interacción: Obesidad y Diabetes
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 dia.obs<-ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2"), condition = c(tabaquismo_2 = .5,
                                                                cardiovascular_2 = .5,
                                                                habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),

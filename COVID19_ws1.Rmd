@@ -40,23 +40,6 @@ Model<- glm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + secto
 #export_summs(Model)
 ```
 
-```{r eval=FALSE, include=FALSE}
-library(brms)
-library(dplyr)
-D1a<-sample_n(D1,5000)
-
-Model.B<-brm(death ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D1, prior = c(set_prior("normal(0,10)", class="b"),
-                                set_prior("student_t(3,0,5)", class="Intercept"),
-                                set_prior("normal(0,1)", class="b", coef="sector_4"),
-                                set_prior("normal(0,1)", class="b", coef="sector_6"),
-                                set_prior("normal(0,2)", class="b", coef="sector_11"),
-                                set_prior("normal(0,2)", class="b", coef="sector_8"),
-                                set_prior("normal(0,1)", class="b", coef="sector_9")),
- family = "bernoulli", chains=4, cores=4, iter = 900, control = list(max_treedepth = 12))
-
-save(Model.B,file="Model.B")
-```
-
 ```{r echo=FALSE}
 load("Model.B")
 ```
@@ -100,7 +83,7 @@ sexo<-crosstab(D1$sexo,D1$death,prop.r=TRUE)
 sexo<-as.data.frame(sexo$prop.row*100)
 sexo<-sexo[c(3:4),]
 
-sexo$Sexo<-ifelse(sexo$D1.sexo==1,"Mujer","Hombre")
+sexo$Sexo<-ifelse(sexo$SEXO==1,"Mujer","Hombre")
 ```
 
 ```{r echo=FALSE}
@@ -122,7 +105,7 @@ edad<-edad[c(11:20),]
 ```
 
 ```{r echo=FALSE}
-ggplot(edad) + geom_point(aes(D1.g.edad, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Entidad")
+ggplot(edad) + geom_point(aes(EDAD, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Entidad")
 ```
 
 ### Condición indígena
@@ -135,7 +118,7 @@ indigena<-crosstab(D1$habla_lengua_indig,D1$death,prop.r=TRUE)
 indigena<-as.data.frame(indigena$prop.row*100)
 indigena<-indigena[c(4:5),]
 
-indigena$Indigena<-ifelse(indigena$D1.habla_lengua_indig==1,"Habla lengua indígena","No habla lengua indígena")
+indigena$Indigena<-ifelse(indigena$HABLA_LENGUA_INDIG==1,"Habla lengua indígena","No habla lengua indígena")
 ```
 
 ```{r echo=FALSE}
@@ -186,7 +169,7 @@ La Prevalencia cruda es la proporción de fallecimientos dentro de cada grupo po
 
 LIMITACIÓN: Se trata entonces de un estadístico simple, pero sin ajuste. Es decir, no considera la composición dentro de cada grupo. Por ejemplo, si dentro del grupo de hombres 90% tuviera diabetes (mientras que tan sólo el 10% de las mujeres tuviera diabetes), la prevalencia cruda no podría distinguir el efecto estadístico de la diabetes respecto a la condición de ser hombre. En otras palabras, no se puede concluir que la diferencia observada de 10% entre hombre y mujeres es por la condición de sexo *-los hombres no tienen necesariamente 10% más riesgo que las mujeres de morir-*. En este ejemplo, la diferencia se explica mayormente por diabetes que por sexo. 
 
-Si su busca hacer interpretaciones más *robustas*, se recomienda usar las **prevalencias/probabilidades ajustadas** reportadas en este mismo portal. 
+Si busca hacer interpretaciones más *robustas*, se recomienda usar las **prevalencias/probabilidades ajustadas** reportadas en este mismo portal. 
 
 Los datos se actualizan diariamente con información oficial de: https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico
 

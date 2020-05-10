@@ -157,7 +157,7 @@ sector<-sector[c(16,17,18,20,21,23,24),]
 sector$Institucion<-c("Estatal", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA")
 ```
 
-```{r}
+```{r echo=FALSE, include=FALSE}
 sector.t<-crosstab(D1$sector,D1$death,prop.r=TRUE)
 sector.t<-as.data.frame(sector.t$rs)
 sector.t$SECTOR<-rownames(sector.t)

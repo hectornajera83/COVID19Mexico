@@ -355,28 +355,6 @@ $(document).ready(function () {
 </div>
 <div id="sector-salud" class="section level3">
 <h3>Sector salud</h3>
-<pre class="r"><code>sector.t&lt;-crosstab(D1$sector,D1$death,prop.r=TRUE)</code></pre>
-<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<pre class="r"><code>sector.t&lt;-as.data.frame(sector.t$rs)
-sector.t$SECTOR&lt;-rownames(sector.t)
-sector&lt;-merge(sector, sector.t, by=&quot;SECTOR&quot;, all.x=FALSE, sort=FALSE)
-names(sector)[5]&lt;-&quot;Casos totales&quot;
-
-library(BAMMtools)
-
-myBrks &lt;- c(100,1000,5000,10000,20000)
-labels &lt;- c()
-
-for(idx in 1:length(myBrks)){
-  labels &lt;- c(labels, paste0(round(myBrks[idx], 1), 
-                             &quot; - &quot;, 
-                             round(myBrks[idx + 1], 1)))
-}
-
-labels &lt;- labels[1:length(labels)-1]
-
-
-sector$breaks&lt;-cut(sector$`Casos totales` , breaks=myBrks, labels=labels, include.lowest = T)</code></pre>
 <p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 </div>
 <div id="nota-prevalencia-cruda" class="section level3">

@@ -10,7 +10,7 @@ El siguiente cuadro muestra la relación de distintos factores demográficos, in
 
 * Sin evidencia de su efecto: El intervalo de confianza creible contiene cero. 
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 load("Model.B")
 library(kableExtra)
 

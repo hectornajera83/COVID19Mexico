@@ -153,12 +153,38 @@ sector<-crosstab(D1$sector,D1$death,prop.r=TRUE)
 
 ```{r include=FALSE}
 sector<-as.data.frame(sector$prop.row*100)
-sector<-sector[c(14,15,16,18,19,21,22),]
+sector<-sector[c(16,17,18,20,21,23,24),]
 sector$Institucion<-c("Estatal", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA")
 ```
 
+```{r}
+sector.t<-crosstab(D1$sector,D1$death,prop.r=TRUE)
+sector.t<-as.data.frame(sector.t$rs)
+sector.t$SECTOR<-rownames(sector.t)
+sector<-merge(sector, sector.t, by="SECTOR", all.x=FALSE, sort=FALSE)
+names(sector)[5]<-"Casos totales"
+
+library(BAMMtools)
+
+myBrks <- c(100,1000,5000,10000,20000)
+labels <- c()
+
+for(idx in 1:length(myBrks)){
+  labels <- c(labels, paste0(round(myBrks[idx], 1), 
+                             " - ", 
+                             round(myBrks[idx + 1], 1)))
+}
+
+labels <- labels[1:length(labels)-1]
+
+
+sector$breaks<-cut(sector$`Casos totales` , breaks=myBrks, labels=labels, include.lowest = T)
+
+```
+
+
 ```{r echo=FALSE}
-ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq), size=4) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Institución") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
+ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq,  color=breaks), size=4) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Institución") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + labs( color="Casos totales")
 ```
 
 ### Nota: Prevalencia cruda

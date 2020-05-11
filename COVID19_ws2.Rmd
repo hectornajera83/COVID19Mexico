@@ -452,6 +452,7 @@ dia.obs<-ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2"), condition = c
                                                                embarazo_2 = mean(D1$embarazo_2),
                                                                diabetes_2 = .5,
                                                                hipertension_2 = .5,
+                                                               renal_cronica_2 = .5,
                                                                inmusupr_2 = .5,
                                                                asma_2 = .5,
                                                                sexo_1 = .5,
@@ -473,7 +474,7 @@ dia.obs$obesidad<-c("Con obesidad","Con obesidad", "Sin obesidad","Sin obesidad"
 ggplot(dia.obs, aes(x = obesidad, y = predicted*100, colour=diabetes, group=diabetes)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Interacción obesidad y diabetes", y="Probabilidad fallecimiento (%). CI 95%. Riesgo medio", color = "Riesgo factores de salud") + 
-   ylim(c(0,20)) + 
+   ylim(c(0,25)) + 
  theme_classic() + scale_color_manual(values=c("#f1602e", "#9e7e76")) +  theme(legend.position = "bottom")
 ```
 

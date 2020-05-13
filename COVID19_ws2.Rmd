@@ -59,7 +59,7 @@ Model.B<-brm(death ~ 1 + f_gap + f_gap2  + sector_3 + sector_4 + sector_6 + sect
                                 set_prior("normal(0,1)", class="b", coef="sector_12"),
                                 set_prior("normal(0,1)", class="b", coef="sector_8"),
                                 set_prior("normal(0,1)", class="b", coef="sector_9")),
- family = "bernoulli", chains=4, cores=4, iter = 900, control = list(max_treedepth = 12))
+ family = "bernoulli", chains=4, cores=4, iter = 1000, control = list(max_treedepth = 12))
 
 save(Model.B,file="Model.B")
 ```
@@ -145,6 +145,66 @@ ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sexo", y="Probabilidad fallecimiento (%). CI 95%", c) + 
    ylim(c(2,39)) + 
   theme_classic() +   scale_color_hue(l=30, c=80) 
+```
+
+### Indígena
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+indigena.m<-ggpredict(Model.B, terms = c("habla_lengua_indig_1"), condition = c(tabaquismo_2 = .5,
+                                                               diabetes_2= .5,
+                                                               obesidad_2=.5,
+                                                               cardiovascular_2 = .5,
+                                                               sexo_1 = .5,
+                                                               embarazo_2 = mean(D1$embarazo_2),
+                                                               renal_cronica_2 = .5,
+                                                               hipertension_2 = .5,
+                                                               inmusupr_2 = .5,
+                                                               asma_2 = .5,
+                                                               sector_3 = mean(D1$sector_3),
+                                                               sector_4 = mean(D1$sector_4),
+                                                               sector_6 = mean(D1$sector_6),
+                                                               sector_8 = mean(D1$sector_8),
+                                                               sector_9 = mean(D1$sector_9),
+                                                               sector_11 = mean(D1$sector_11),
+                                                               sector_12 = mean(D1$sector_12),
+                                                               lastWeek_1 = mean(D1$lastWeek_1),
+                                                               lastWeek_2 = mean(D1$lastWeek_2),
+                                                               lastWeek_3 = mean(D1$lastWeek_3)))
+
+
+indigena.r<-ggpredict(Model.B, terms = c("habla_lengua_indig_1"), ci.lvl = 0.90, condition = c(tabaquismo_2 = .05,
+                                                               diabetes_2= .05,
+                                                               obesidad_2= .05,
+                                                               cardiovascular_2 = .05,
+                                                               sexo = .5,
+                                                               embarazo_2 = mean(D1$embarazo_2),
+                                                               renal_cronica_2 = .05,
+                                                               hipertension_2 = .05,
+                                                               inmusupr_2 = .05,
+                                                               asma_2 = .05,
+                                                               sector_3 = .1,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+indigena.m$riesgo<-"Medio"
+indigena.r$riesgo<-"Alto"
+indigena<-rbind(indigena.m,indigena.r)
+
+
+indigena$x<-ifelse(indigena$x==1,"Habla lengua indígena","No habla lengua indígena")
+
+ggplot(indigena, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Habla lengua indígena", y="Probabilidad fallecimiento (%). CI 95%", c) + 
+   ylim(c(2,45)) + 
+  theme_classic() +   scale_color_hue(l=20, c=76) 
 ```
 
 ### Obesidad

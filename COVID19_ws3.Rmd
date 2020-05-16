@@ -526,8 +526,7 @@ ggplot(data=tiempo.p, aes(x, predicted*100, group = riesgo)) + geom_ribbon(aes(y
 
 ### Descriptivo tiempo atención
 
-```{r message=FALSE, warning=FALSE}
-library(gridExtra)
+```{r message=FALSE, warning=FALSE, echo=FALSE}
 ggplot(D1, aes(f_gap)) + geom_histogram(bins=25, color="#457D7E", fill="#307D7E")   + theme_classic() + labs(x="Brecha inicio de síntomas - atención", y="Casos diganosticados") + xlim(c(0,25))
 ```
 

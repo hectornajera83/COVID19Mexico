@@ -510,7 +510,6 @@ dia.obs<-ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2"), condition = c
                                                                cardiovascular_2 = .6,
                                                                habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
                                                                embarazo_2 = mean(D1$embarazo_2),
-                                                               diabetes_2 = .6,
                                                                hipertension_2 = .6,
                                                                renal_cronica_2 = .6,
                                                                inmusupr_2 = .6,
@@ -538,12 +537,45 @@ ggplot(dia.obs, aes(x = obesidad, y = predicted*100, colour=diabetes, group=diab
  theme_classic() + scale_color_manual(values=c("#f1602e", "#9e7e76")) +  theme(legend.position = "bottom")
 ```
 
+### Interacción: Diabetes e hipertension
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+dia.hip<-ggpredict(Model.B, terms = c("diabetes_2", "hipertension_2"), condition = c(tabaquismo_2 = .6,
+                                                               cardiovascular_2 = .6,
+                                                               habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                                                               embarazo_2 = mean(D1$embarazo_2),
+                                                               obesidad_2 = .6,
+                                                               renal_cronica_2 = .6,
+                                                               inmusupr_2 = .6,
+                                                               asma_2 = .6,
+                                                               sexo_1 = .6,
+                                                               sector_3 = .1,
+                                                               sector_4 = .1,
+                                                               sector_6 = .1,
+                                                               sector_8 = .1,
+                                                               sector_9 = .1,
+                                                               sector_11 = .1,
+                                                               sector_12 = .1,
+                                                               lastWeek_1 = .1,
+                                                               lastWeek_2 = .1,
+                                                               lastWeek_3 = .1))
+
+
+dia.hip$diabetes<-c("Con diabetes","Sin diabetes", "Con diabetes","Sin diabetes")
+dia.hip$hipertension<-c("Con hipertensión","Con hipertensión", "Sin hipertensión","Sin hipertensión")
+
+ggplot(dia.hip, aes(x = hipertension, y = predicted*100, colour=diabetes, group=diabetes)) +
+  geom_point(position=position_dodge(width=.3)) +
+  geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Interacción diabetes e hipertensión", y="Probabilidad fallecimiento (%). CI 95%. Riesgo medio", color = "Riesgo factores de salud") + 
+   ylim(c(0,25)) + 
+ theme_classic() + scale_color_manual(values=c("#FF0000", "#004D54")) +  theme(legend.position = "bottom")
+```
 
 ### Nota: Probabilidad ajustada
 
 #### Significado e interpretación
 
-La probabilidad ajustada es la proporción de fallecimientos atribuibles a cierta característica (por ejemplo, obesidad) después de controlar por ciertos factores en un modelo estadístico. En el caso más simple, el control se hace a los valores promedio de los otros factores. En los casos más complicados el ajuste se hace a valores específicos. Por ejemplo, la probabilidad de fallecimiento para gente con obesidad para la población hipertensa, con diabetes, etc. 
+La probabilidad ajustada es la proporción de fallecimientos atribuibles a cierta característica (por ejemplo, hipertensión) después de controlar por ciertos factores en un modelo estadístico. En el caso más simple, el control se hace a los valores promedio de los otros factores. En los casos más complicados el ajuste se hace a valores específicos. Por ejemplo, la probabilidad de fallecimiento para gente con obesidad para la población hipertensa, con diabetes, etc. 
 
 Estos datos se interpretan de la siguiente manera. Considere a dos grupos de personas, uno con y otro sin diabetes, con probabilidades ajustadas de 25% y 15%, respectivamente. Esto significa que -en promedio- el efecto de diabetes sobre la probabilidad de fallecimiento es de 10%. En otras palabras, las personas con diabetes tienen 10% más riesgo de morir que las que no tienen diabetes. 
 

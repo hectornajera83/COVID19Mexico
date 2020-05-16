@@ -166,7 +166,7 @@ names(sector)[5]<-"Casos totales"
 
 library(BAMMtools)
 
-myBrks <- c(100,1000,5000,10000,20000)
+myBrks <- c(100,1000,5000,10000,20000,30000)
 labels <- c()
 
 for(idx in 1:length(myBrks)){
@@ -186,6 +186,51 @@ sector$breaks<-cut(sector$`Casos totales` , breaks=myBrks, labels=labels, includ
 ```{r echo=FALSE}
 ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq,  color=breaks), size=4) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Institución") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + labs( color="Casos totales")
 ```
+
+### Descriptivos padecimientos
+
+```{r echo=FALSE, include=FALSE}
+library(ggplot2)
+obesidad<-freq(D1$obesidad)
+obesidad<-obesidad[1:2,]
+diabetes<-freq(D1$diabetes)
+diabetes<-diabetes[1:2,]
+hipertension<-freq(D1$hipertension)
+hipertension<-hipertension[1:2,]
+cardiovascular<-freq(D1$cardiovascular)
+cardiovascular<-cardiovascular[1:2,]
+renal<-freq(D1$renal_cronica)
+renal<-renal[1:2,]
+asma<-freq(D1$asma)
+asma<-asma[1:2,]
+
+
+table<-rbind(obesidad,diabetes,hipertension,cardiovascular,renal,asma)
+table<-as.data.frame(table)
+table$Variable<-rep(c("Obesidad","Diabetes", "Hipertensión","Enf. Cardiovascular","Renal Crónica","Asma"), each=2)
+table$Condicion<-rep(c("Sí","No"), by=6)
+```
+
+```{r echo=FALSE}
+ggplot(table, aes(Percent, Variable, fill=Condicion)) + geom_bar(position="stack", stat="identity") + theme_classic() + labs(x="Porcentaje total de diagnosticados", fill="Condición")
+```
+
+### Descriptivos estado residencia
+
+```{r include=FALSE}
+edo<-freq(D1$entidad_res)
+edo<-as.data.frame(edo)
+edo<-edo[-33,]
+edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campeche","Coahuila","Colima",
+                      "Chiapas","Chihuahua","Ciudad de México","Durango","Guanajuato","Guerrero","Hidalgo","Jalisco",
+                       "México","Michoacán", "Morelos","Nayarit","Nuevo León", "Oaxaca","Puebla","Querétaro","Quintana Roo",
+                       "San Luis Potosí", "Sinaloa","Sonora", "Tabasco", "Tamaulipas","Tlaxcala","Veracruz","Yucatán", "Zacatecas")
+```
+
+```{r echo=FALSE}
+ggplot(edo) + geom_point(aes(reorder(Entidad,Percent), Percent), size=5) + theme_classic() + labs(y="% Casos diagnosticados totales", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
+```
+
 
 ### Nota: Prevalencia cruda
 

@@ -51,7 +51,7 @@ Esta sección muestra la proporción de fallecimientos según distintas condicio
 
 ### Padecimientos
 
-```{r eval=T, include=FALSE}
+```{r eval=T, include=FALSE, message=FALSE, warning=FALSE}
 library(descr)
 library(reshape2)
 library(tidyr)
@@ -119,7 +119,7 @@ edad<-as.data.frame(edad$prop.row*100)
 edad<-edad[c(11:20),]
 ```
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(gganimate)
 library(gifski)
 p<-ggplot(edad) + geom_point(aes(EDAD, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Edad") +   transition_reveal(Freq)
@@ -158,7 +158,7 @@ edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campech
                        "San Luis Potosí", "Sinaloa","Sonora", "Tabasco", "Tamaulipas","Tlaxcala","Veracruz","Yucatán", "Zacatecas")
 ```
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 p<-ggplot(edo) + geom_point(aes(reorder(Entidad,Freq), Freq), size=5) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + transition_states(Freq) + shadow_mark()
 animate(p, renderer = gifski_renderer(), fps=70, end_pause = 30)
 ```
@@ -206,7 +206,7 @@ p<-ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq,  color=break
 animate(p, renderer = gifski_renderer(), fps=80, end_pause = 30)
 ```
 
-### % prevalencia de enferemdades
+### % prevalencia de enfermedades
 
 ```{r echo=FALSE, include=FALSE}
 library(ggplot2)
@@ -257,7 +257,7 @@ animate(p, renderer = gifski_renderer(), fps=70, end_pause = 30)
 
 #### Significado e interpretación
 
-La Prevalencia cruda es la proporción de fallecimientos dentro de cada grupo poblacional. Por ejemplo, considere 100 mujeres y 100 hombres con una prevalencia cruda igual a 15% y 25%, respectivamente. Esto significa que el 25% de los hombres con el padecimiento murió. 
+La prevalencia cruda es la proporción de fallecimientos dentro de cada grupo poblacional. Por ejemplo, considere 100 mujeres y 100 hombres con una prevalencia cruda igual a 15% y 25%, respectivamente. Esto significa que el 25% de los hombres con el padecimiento murió. 
 
 LIMITACIÓN: Se trata entonces de un estadístico simple, pero sin ajuste. Es decir, no considera la composición dentro de cada grupo. Por ejemplo, si dentro del grupo de hombres 90% tuviera diabetes (mientras que tan sólo el 10% de las mujeres tuviera diabetes), la prevalencia cruda no podría distinguir el efecto estadístico de la diabetes respecto a la condición de ser hombre. En otras palabras, no se puede concluir que la diferencia observada de 10% entre hombre y mujeres es por la condición de sexo *-los hombres no tienen necesariamente 10% más riesgo que las mujeres de morir-*. En este ejemplo, la diferencia se explica mayormente por diabetes que por sexo. 
 

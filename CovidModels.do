@@ -51,7 +51,7 @@ gen todaygap = today2-f_ingreso
 gen lastWeek = 1 if todaygap<=8
 replace lastWeek = 2 if (todaygap>8 & todaygap<=15)
 replace lastWeek = 3 if (todaygap>15 & todaygap<=21)
-replace lastWeek = 4 if (todaygap>21 & todaygap<=31)
+replace lastWeek = 4 if (todaygap>21 & todaygap<=29)
 recode lastWeek (.=0)
 
 * Muerte

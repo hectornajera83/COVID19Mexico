@@ -141,7 +141,7 @@ sexo<-rbind(sexo.m,sexo.r)
 
 sexo$x<-ifelse(sexo$x==1,"Mujer","Hombre")
 
-p<-ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
+ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sexo", y="Probabilidad fallecimiento (%). CI 95%", c) + 
    ylim(c(2,39)) + 

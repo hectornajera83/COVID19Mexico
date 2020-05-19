@@ -69,7 +69,7 @@ tab.m$label<-ifelse(tab.m$id==1,"Sin padecimiento", "Con padecimiento")
 tab.m$padecimiento<-rep(c("Obesidad","Diabetes","Asma","Tabaquismo","Inmunosupresores","Hipertensión","Renal Crónica","Cardiovascular"), each=2)
 ```
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 p<-ggplot(tab.m) + geom_point(aes(reorder(padecimiento,value), value*100, color=label), size=5) + 
   labs(y = "% de fallecimientos dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=35) + transition_states(value) + shadow_mark()
 animate(p, renderer = gifski_renderer(), fps=100, end_pause = 50)
@@ -201,7 +201,7 @@ sector$breaks<-cut(sector$`Casos totales` , breaks=myBrks, labels=labels, includ
 ```
 
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 p<-ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq,  color=breaks), size=4) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Institución") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + labs( color="Casos totales") +  transition_states(Freq) + shadow_mark(past =TRUE)
 animate(p, renderer = gifski_renderer(), fps=80, end_pause = 30)
 ```
@@ -248,7 +248,7 @@ edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campech
                        "San Luis Potosí", "Sinaloa","Sonora", "Tabasco", "Tamaulipas","Tlaxcala","Veracruz","Yucatán", "Zacatecas")
 ```
 
-```{r echo=FALSE, warning=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 p<-ggplot(edo) + geom_point(aes(reorder(Entidad,Percent), Percent), size=5, color="#088A68") + theme_classic() + labs(y="% Casos diagnosticados totales", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")  + ylim(c(0,35)) + transition_states(Percent) + shadow_mark()
 animate(p, renderer = gifski_renderer(), fps=70, end_pause = 30)
 ```

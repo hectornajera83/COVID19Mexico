@@ -73,6 +73,19 @@ ggplot(tab.m) + geom_point(aes(reorder(padecimiento,value), value*100, color=lab
   labs(y = "% de fallecimientos dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=35)
 ```
 
+### Intubados
+
+```{r}
+intu<-crosstab(D1$intubado, D1$death, prop.r=TRUE)
+intu<-as.data.frame(intu$prop.row*100)
+intu<-intu[c(5:8),]
+intu$Intubado<-c("Sí","No","No aplica", "Sin registro")
+```
+
+```{r echo=FALSE}
+ggplot(intu) + geom_point(aes(reorder(Intubado,Freq), Freq), size=7, colour="#0099cc") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Intubado") + ylim(c(0,65))
+```
+
 ### Sexo
 
 ```{r include=FALSE}
@@ -124,7 +137,6 @@ indigena$Indigena<-ifelse(indigena$HABLA_LENGUA_INDIG==1,"Habla lengua indígena
 ```{r echo=FALSE}
 ggplot(indigena) + geom_point(aes(reorder(Indigena,Freq), Freq), size=7, shape=17, colour="#A52A2A") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Lengua indígena") + ylim(c(8,20))
 ```
-
 
 ### Estado residencia
 
@@ -203,16 +215,18 @@ renal<-freq(D1$renal_cronica)
 renal<-renal[1:2,]
 asma<-freq(D1$asma)
 asma<-asma[1:2,]
+tabaquismo<-freq(D1$tabaquismo)
+tabaquismo<-tabaquismo[1:2,]
 
 
-table<-rbind(obesidad,diabetes,hipertension,cardiovascular,renal,asma)
+table<-rbind(obesidad,diabetes,hipertension,cardiovascular,renal,asma,tabaquismo)
 table<-as.data.frame(table)
-table$Variable<-rep(c("Obesidad","Diabetes", "Hipertensión","Enf. Cardiovascular","Renal Crónica","Asma"), each=2)
+table$Variable<-rep(c("Obesidad","Diabetes", "Hipertensión","Enf. Cardiovascular","Renal Crónica","Asma","Tabaquismo"), each=2)
 table$Condicion<-rep(c("Sí","No"), by=6)
 ```
 
 ```{r echo=FALSE}
-ggplot(table, aes(Percent, Variable, fill=Condicion)) + geom_bar(position="stack", stat="identity") + theme_classic() + labs(x="Porcentaje total de diagnosticados", fill="Condición")
+ggplot(table, aes(Percent, reorder(Variable,Percent), fill=Condicion)) + geom_bar(position="stack", stat="identity") + theme_classic() + labs(x="Porcentaje total de diagnosticados", fill="Condición", y="Condición de salud")
 ```
 
 ### Descriptivos estado residencia
@@ -230,7 +244,6 @@ edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campech
 ```{r echo=FALSE}
 ggplot(edo) + geom_point(aes(reorder(Entidad,Percent), Percent), size=5) + theme_classic() + labs(y="% Casos diagnosticados totales", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
 ```
-
 
 ### Nota: Prevalencia cruda
 

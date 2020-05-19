@@ -337,33 +337,42 @@ $(document).ready(function () {
 <h3>Padecimientos</h3>
 <p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
+<div id="intubados" class="section level3">
+<h3>Intubados</h3>
+<pre class="r"><code>intu&lt;-crosstab(D1$intubado, D1$death, prop.r=TRUE)</code></pre>
+<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>intu&lt;-as.data.frame(intu$prop.row*100)
+intu&lt;-intu[c(5:8),]
+intu$Intubado&lt;-c(&quot;Sí&quot;,&quot;No&quot;,&quot;No aplica&quot;, &quot;Sin registro&quot;)</code></pre>
+<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
 <div id="sexo" class="section level3">
 <h3>Sexo</h3>
-<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="grupo-de-edad" class="section level3">
 <h3>Grupo de edad</h3>
-<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 <div id="condicion-indigena" class="section level3">
 <h3>Condición indígena</h3>
-<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="estado-residencia" class="section level3">
 <h3>Estado residencia</h3>
-<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
 <div id="sector-salud" class="section level3">
 <h3>Sector salud</h3>
-<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 </div>
 <div id="descriptivos-padecimientos" class="section level3">
 <h3>Descriptivos padecimientos</h3>
-<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 </div>
 <div id="descriptivos-estado-residencia" class="section level3">
 <h3>Descriptivos estado residencia</h3>
-<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="COVID19_ws1_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 </div>
 <div id="nota-prevalencia-cruda" class="section level3">
 <h3>Nota: Prevalencia cruda</h3>

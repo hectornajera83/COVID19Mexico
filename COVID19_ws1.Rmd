@@ -22,6 +22,7 @@ library(huxtable)
 library(ggplot2)
 library(haven)
 library(fastDummies)
+library(gganimate)
 
 D<-read_dta("COVID19.dta")
 D1<-subset(D, D$resultado==1)
@@ -68,14 +69,15 @@ tab.m$label<-ifelse(tab.m$id==1,"Sin padecimiento", "Con padecimiento")
 tab.m$padecimiento<-rep(c("Obesidad","Diabetes","Asma","Tabaquismo","Inmunosupresores","Hipertensión","Renal Crónica","Cardiovascular"), each=2)
 ```
 
-```{r echo=FALSE}
-ggplot(tab.m) + geom_point(aes(reorder(padecimiento,value), value*100, color=label), size=5) + 
-  labs(y = "% de fallecimientos dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=35)
+```{r echo=FALSE, warning=FALSE}
+p<-ggplot(tab.m) + geom_point(aes(reorder(padecimiento,value), value*100, color=label), size=5) + 
+  labs(y = "% de fallecimientos dentro del grupo", color = "Condición de padecimiento") + theme_classic() + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.title.x=element_blank(), legend.position="bottom") + scale_color_hue(l=40, c=35) + transition_states(value) + shadow_mark()
+animate(p, renderer = gifski_renderer(), fps=100, end_pause = 50)
 ```
 
 ### Intubados
 
-```{r}
+```{r echo=FALSE, include=FALSE}
 intu<-crosstab(D1$intubado, D1$death, prop.r=TRUE)
 intu<-as.data.frame(intu$prop.row*100)
 intu<-intu[c(5:8),]
@@ -117,8 +119,11 @@ edad<-as.data.frame(edad$prop.row*100)
 edad<-edad[c(11:20),]
 ```
 
-```{r echo=FALSE}
-ggplot(edad) + geom_point(aes(EDAD, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Entidad")
+```{r echo=FALSE, warning=FALSE}
+library(gganimate)
+library(gifski)
+p<-ggplot(edad) + geom_point(aes(EDAD, Freq), size=5, shape=19, colour="#D95174") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Edad") +   transition_reveal(Freq)
+animate(p, renderer = gifski_renderer(), fps=75, end_pause = 40)
 ```
 
 ### Condición indígena
@@ -153,8 +158,9 @@ edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campech
                        "San Luis Potosí", "Sinaloa","Sonora", "Tabasco", "Tamaulipas","Tlaxcala","Veracruz","Yucatán", "Zacatecas")
 ```
 
-```{r echo=FALSE}
-ggplot(edo) + geom_point(aes(reorder(Entidad,Freq), Freq), size=5) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
+```{r echo=FALSE, warning=FALSE}
+p<-ggplot(edo) + geom_point(aes(reorder(Entidad,Freq), Freq), size=5) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + transition_states(Freq) + shadow_mark()
+animate(p, renderer = gifski_renderer(), fps=70, end_pause = 30)
 ```
 
 ### Sector salud
@@ -195,11 +201,12 @@ sector$breaks<-cut(sector$`Casos totales` , breaks=myBrks, labels=labels, includ
 ```
 
 
-```{r echo=FALSE}
-ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq,  color=breaks), size=4) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Institución") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + labs( color="Casos totales")
+```{r echo=FALSE, warning=FALSE}
+p<-ggplot(sector) + geom_point(aes(reorder(Institucion,Freq), Freq,  color=breaks), size=4) + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Institución") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + labs( color="Casos totales") +  transition_states(Freq) + shadow_mark(past =TRUE)
+animate(p, renderer = gifski_renderer(), fps=80, end_pause = 30)
 ```
 
-### Descriptivos padecimientos
+### % prevalencia de enferemdades
 
 ```{r echo=FALSE, include=FALSE}
 library(ggplot2)
@@ -229,7 +236,7 @@ table$Condicion<-rep(c("Sí","No"), by=6)
 ggplot(table, aes(Percent, reorder(Variable,Percent), fill=Condicion)) + geom_bar(position="stack", stat="identity") + theme_classic() + labs(x="Porcentaje total de diagnosticados", fill="Condición", y="Condición de salud")
 ```
 
-### Descriptivos estado residencia
+### % diagnosticados por estado residencia
 
 ```{r include=FALSE}
 edo<-freq(D1$entidad_res)
@@ -241,8 +248,9 @@ edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campech
                        "San Luis Potosí", "Sinaloa","Sonora", "Tabasco", "Tamaulipas","Tlaxcala","Veracruz","Yucatán", "Zacatecas")
 ```
 
-```{r echo=FALSE}
-ggplot(edo) + geom_point(aes(reorder(Entidad,Percent), Percent), size=5) + theme_classic() + labs(y="% Casos diagnosticados totales", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")
+```{r echo=FALSE, warning=FALSE}
+p<-ggplot(edo) + geom_point(aes(reorder(Entidad,Percent), Percent), size=5, color="#088A68") + theme_classic() + labs(y="% Casos diagnosticados totales", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")  + ylim(c(0,35)) + transition_states(Percent) + shadow_mark()
+animate(p, renderer = gifski_renderer(), fps=70, end_pause = 30)
 ```
 
 ### Nota: Prevalencia cruda

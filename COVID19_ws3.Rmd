@@ -392,11 +392,15 @@ sector.p<-rbind(sector.p,sector.3r,sector.0r,sector.4r,sector.6r,sector.8r,secto
 sector.p$Institucion <- c("Estatal", "OTRO", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA","Estatal","OTRO", "IMSS", "ISSSTE", "PEMEX", "PRIVADA", "SEMAR", "SSA")
 sector.p$riesgo<-rep(c("Medio","Alto"),each=8)
 
-ggplot(sector.p, aes(x = reorder(Institucion, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
+p<-ggplot(sector.p, aes(x = reorder(Institucion, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sector Salud", y="Probabilidad fallecimiento (%). CI 95%", color = "Riesgo factores de salud") + 
    ylim(c(0,50))  +
-  theme_classic() +   scale_color_hue(l=40, c=70) + theme(legend.position = "bottom")
+  theme_classic() +   scale_color_hue(l=40, c=70) + theme(legend.position = "bottom") +
+transition_reveal(predicted) + shadow_wake(wake_length = 1) 
+
+animate(p, renderer = gifski_renderer(), fps=150, end_pause = 20)
+
 ```
 
 ### Entidad 
@@ -461,11 +465,13 @@ entidad.p$Entidad<-rep(c("Aguascalientes","Baja California","Baja California Sur
                        "San Luis Potosí", "Sinaloa","Sonora", "Tabasco", "Tamaulipas","Tlaxcala","Veracruz","Yucatán", "Zacatecas"), each=2)
 
 
-ggplot(entidad.p, aes(x = reorder(Entidad, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
+p<-ggplot(entidad.p, aes(x = reorder(Entidad, predicted), y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Entidad", y="Probabilidad fallecimiento (%). CI 95%", color = "Riesgo factores de salud") + 
    ylim(c(0,65))   +
-  theme_classic() +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + scale_color_hue(l=15, c=70) 
+  theme_classic() +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom") + scale_color_hue(l=15, c=70) +   transition_reveal(predicted) + shadow_wake(wake_length = 1) 
+
+animate(p, renderer = gifski_renderer(), fps=150, end_pause = 20)
 
 ```
 
@@ -524,11 +530,17 @@ tiempo.p<-rbind(tiempo.m,tiempo.r)
 ggplot(data=tiempo.p, aes(x, predicted*100, group = riesgo)) + geom_ribbon(aes(ymin = conf.low*100, ymax = conf.high*100, fill=riesgo),  alpha=.6) + labs(x = "Días desde el inicio de síntomas hasta la atención", y = "Probabilidad de fallecimiento (%). 95% CI") + ylim(c(0,41)) + geom_line() + theme_classic() + theme(legend.position="bottom") + labs(fill = "Riesgo factores de salud") 
 ```
 
-### Descriptivo tiempo atención
+### Descriptivo tiempo de atención
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE}
-ggplot(D1, aes(f_gap)) + geom_histogram(bins=25, color="#457D7E", fill="#307D7E")   + theme_classic() + labs(x="Brecha inicio de síntomas - atención", y="Casos diganosticados") + xlim(c(0,25))
+library(gganimate)
+
+p <- ggplot(D1, aes(f_gap)) + geom_histogram(bins=25, color="#457D7E", fill="#307D7E")   + theme_classic() + labs(x="Brecha inicio de síntomas - atención", y="Casos diganosticados") + xlim(c(0,25)) 
+p<-p +  transition_states(f_gap, wrap = FALSE) +
+  shadow_mark()
+animate(p, renderer = gifski_renderer(), fps=80, end_pause = 40)
 ```
+
 
 
 ### Nota: Probabilidad ajustada

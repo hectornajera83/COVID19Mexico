@@ -1,5 +1,5 @@
 
-import delimited "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\200517COVID19MEXICO", clear
+import delimited "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\200518COVID19MEXICO", clear
 
 *
 gen edad2 = edad^2
@@ -50,7 +50,8 @@ gen f_gap2 = f_gap^2
 gen todaygap = today2-f_ingreso
 gen lastWeek = 1 if todaygap<=8
 replace lastWeek = 2 if (todaygap>8 & todaygap<=15)
-replace lastWeek = 3 if (todaygap>15 & todaygap<=20)
+replace lastWeek = 3 if (todaygap>15 & todaygap<=21)
+replace lastWeek = 4 if (todaygap>21 & todaygap<=31)
 recode lastWeek (.=0)
 
 * Muerte
@@ -73,7 +74,7 @@ tab habla_lengua_indig, gen(indigena)
 
 logit death f_gap f_gap2 sector3 sector4 sector6 sector8 sector9 sector11 sector12 edad edad2 indigena2 ///
  i.obesidad i.cardiovascular i.renal_cronica i.tabaquismo i.hipertension i.inmusupr ///
- asma i.diabetes i.embarazo i.sexo i.lastWeek  if resultado==1, or
+ asma i.diabetes i.embarazo i.sexo i.lastWeek i.tabaquismo  if resultado==1, or
  
  melogit death f_gap f_gap2 sector3 sector4 sector6 sector8 sector9 sector11 sector12 edad edad2 indigena2 ///
  i.obesidad cardiovascular renal_cronica tabaquismo hipertension inmusupr ///

@@ -18,6 +18,7 @@ bs_theme_accent_colors(primary = "#e39777", secondary = "#fdce93")
 ```
 
 ```{r setup, include=FALSE}
+library(gganimate)
 library(flexdashboard)
 library(foreign)
 library(ggeffects)
@@ -71,9 +72,9 @@ load("Model.B")
 
 ## Probabilidad (prevalencia) ajustada: condiciones de salud y demográficas {.tabset} 
 
-Esta sección muestra la prevalencia ajustada de fallecimientos según distintas condiciones demográficas y de salud. A diferencia de la  (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html"> prevalencia cruda</a>), se trata de probabilidades que permiten hacer conclusiones más robustas sobre los factores de riesgo de fallecimiento por COVID-19.
+Esta sección muestra la prevalencia ajustada de fallecimientos según distintas condiciones demográficas y de salud. A diferencia de la <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html"> prevalencia cruda</a>, se trata de probabilidades que permiten hacer conclusiones más robustas sobre los factores de riesgo de fallecimiento por COVID-19.
 
-Todas las gráficas reconocen la incertidumbre de la estimación y se incluyen (<a href="https://en.wikipedia.org/wiki/Credible_interval" target="_blank">intervalos creíbles</a>) al 95% . Esto signfica que, con una probabilidad de 95%, el valor observado se ubica en el rango mostrado en la gráfica. 
+Todas las gráficas reconocen la incertidumbre de la estimación y se incluyen <a href="https://en.wikipedia.org/wiki/Credible_interval" target="_blank">intervalos creíbles</a> al 95% . Esto signfica que, con una probabilidad de 95%, el valor observado se ubica en el rango mostrado en la gráfica. 
 
 Se recomienda leer la *Nota: Prevalencia ajustada*. 
 
@@ -140,11 +141,11 @@ sexo<-rbind(sexo.m,sexo.r)
 
 sexo$x<-ifelse(sexo$x==1,"Mujer","Hombre")
 
-ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
+p<-ggplot(sexo, aes(x = x, y = predicted*100, colour=riesgo, group=riesgo)) +
   geom_point(position=position_dodge(width=.3)) +
   geom_pointrange(aes(ymin = conf.low*100, ymax = conf.high*100), fatten = 8, position=position_dodge(width=.3)) + labs(x="Sexo", y="Probabilidad fallecimiento (%). CI 95%", c) + 
    ylim(c(2,39)) + 
-  theme_classic() +   scale_color_hue(l=30, c=80) 
+  theme_classic() + scale_color_hue(l=30, c=80)
 ```
 
 ### Indígena
@@ -664,7 +665,7 @@ ggplot(obs.hip, aes(x = hipertension, y = predicted*100, colour=obesidad, group=
  theme_classic() + scale_color_manual(values=c("#290A27", "#6DA4A5")) +  theme(legend.position = "bottom")
 ```
 
-### Interacción edad y obesidad
+### Interacción diabetes e hipertensión
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 dia.hip<-ggpredict(Model.B, terms = c("diabetes_2", "hipertension_2"), condition = c(tabaquismo_2 = .6,
@@ -732,7 +733,7 @@ ggplot(edad.dib, aes(x = x, y = predicted*100, colour=Diabetes, group=Diabetes))
  theme_classic() + scale_fill_manual(values=c("#57BDF7", "#FF5C5C")) +  scale_color_manual(values=c("#57BDF7", "#FF5C5C")) +  theme(legend.position = "bottom")
 ```
 
-### Interacción edad y diabetes
+### Interacción edad y obesidad
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 edad.obs<-ggpredict(Model.B, terms = c("edad", "obesidad_2"), condition = c(tabaquismo_2 = .6,
@@ -756,7 +757,7 @@ edad.obs<-ggpredict(Model.B, terms = c("edad", "obesidad_2"), condition = c(taba
                                                                lastWeek_2 = .1,
                                                                lastWeek_3 = .1))
 
-edad.obs$Obesidad<-ifelse(edad.obs$group==1,"Con obesidad","Sin dobesidad")
+edad.obs$Obesidad<-ifelse(edad.obs$group==1,"Con obesidad","Sin obesidad")
 
 
 ggplot(edad.obs, aes(x = x, y = predicted*100, colour=Obesidad, group=Obesidad)) +

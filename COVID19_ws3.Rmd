@@ -536,7 +536,6 @@ animate(p, renderer = gifski_renderer(), fps=80, end_pause = 40)
 ```
 
 
-
 ### Nota: Probabilidad ajustada
 
 #### Significado e interpretación

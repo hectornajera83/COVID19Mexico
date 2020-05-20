@@ -17,22 +17,27 @@ library(kableExtra)
 a<-as.data.frame(Model.B$fit)
 a<-sapply(a, function(x) quantile(x, probs=c(.025,.5,.975)))
 a<-t(a)
+a[14:21,]<-a[14:21,]*-1
 a<-exp(round(a,2))
 a<-as.data.frame(a)
-a$Factor<-c("Intercept","Tiempo atención","Tiempo atención 2", "Institución atención: Estatal","Institución atención: IMSS", "Institución atención: ISSSTE", "Institución atención: PEMEX", "Institución atención: PRIVADA", "Institución atención: SSA", "Institución atención: SEMAR", "Edad", "Edad 2", "Habla indígena", "Sin Obesidad", "Sin enfermedad cardiovascular", "Sin enfermedad renal crónica", "Tabaquismo", "Sin hipertensión", "Sin inmunosupresores", "Asma", "Sin diabetes", "Embarazo", "Sexo",
+
+a$Factor<-c("Intercept","Tiempo atención","Tiempo atención 2", "Institución atención: Estatal","Institución atención: IMSS", "Institución atención: ISSSTE", "Institución atención: PEMEX", "Institución atención: PRIVADA", "Institución atención: SSA", "Institución atención: SEMAR", "Edad", "Edad 2", "Habla indígena", "Con Obesidad", "Con enfermedad cardiovascular", "Con enfermedad renal crónica", "Tabaquismo", "Con hipertensión", "Con inmunosupresores", "Asma", "Con diabetes", "Embarazo", "Sexo: Mujer",
             "Enfermó la última semana", "Enfermó hace dos semanas", "Enfermó hace tres semanas", "Linear")
 
-a$Efecto<-ifelse(a$`2.5%`>1,"Incrementa riesgo (respecto a la referencia)",ifelse(a$`97.5%`<1,"Reducción en riesgo (respecto a la referencia)","Sin evidencia de su efecto"))
 
-row.names<-a
+a<-a[,2:4]
+a<-a[c(-1,-3,-12,-20,-24,-25,-26,-27),]
+a$Efecto<-c("Incrementa riesgo", "Incrementa riesgo (ref=otro)", "Incrementa riesgo (ref=otro)","Incrementa riesgo (ref=otro)", "Sin evidencia de efecto",
+            "Reducción en riesgo (ref=otro)", "Incrementa riesgo (ref=otro)", "Reducción en riesgo (ref=otro)", 
+            "Incrementa riesgo", "Incrementa riesgo", "Incrementa riesgo", "Sin evidencia de efecto", "Incrementa riesgo", "Sin evidencia de efecto", "Incrementa riesgo", "Incrementa riesgo", "Incrementa riesgo", "Sin evidencia de efecto", "Reducción riesgo (ref=Hombre)")
 
-a<-a[,c(4,5)]
-a<-a[c(-1,-3,-12,-17,-20,-24,-25,-26,-27),]
-rownames(a) <- NULL
+a<-a[,3:4]
+rownames(a)<-NULL
+
 kable(a) %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),  full_width = F, font_size = 14) %>%
-  row_spec(c(2,7,9,10), bold = T, color = "white", background = "#F62217") %>%
-  row_spec(c(3,4,7), bold = T, color = "white", background = "#FFC2B7") %>%
-  row_spec(c(6,8,11,13,14,15,16,18), bold = T, color = "white", background = "#306754") %>%
+  row_spec(c(2,7,9,10,11,13,15,16,17), bold = T, color = "white", background = "#F62217") %>%
+  row_spec(c(1,3,4,7), bold = T, color = "white", background = "#FFC2B7") %>%
+  row_spec(c(6,8,19), bold = T, color = "white", background = "#306754") %>%
   column_spec(1, width = "20em") %>%
   column_spec(2, width = "20em")
 ```
@@ -43,4 +48,3 @@ Referencia:
 
 2. Enfermedades: La referencia es tener la enfermedad. 
 
-3. Periodo enfermó: La referencia es hace más de 3 semanas. 

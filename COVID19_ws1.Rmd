@@ -47,7 +47,7 @@ load("Model.B")
 
 ## Prevalencia cruda: condiciones de salud y demográficas {.tabset} 
 
-Esta sección muestra la proporción de fallecimientos según distintas condiciones demográficas y de salud (Prevalencia cruda). Estas cifras no consideran ningún ajuste estadístico y, por tanto, no permiten concluir con confianza si cierto grupo tiene más riesgo de morir por COVID-19 que otro (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.html"> Ver prevalencia ajustada</a>). Se recomienda leer la *Nota: Prevalencia Cruda*. 
+Esta sección muestra la proporción de fallecimientos según distintas condiciones demográficas y de salud (prevalencia cruda). Estas cifras no consideran ningún ajuste estadístico y, por tanto, no permiten concluir con confianza si cierto grupo tiene más riesgo de morir por COVID-19 que otro (<a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.html"> Ver prevalencia ajustada</a>). Se recomienda leer la *Nota: Prevalencia Cruda*. 
 
 ### Padecimientos
 
@@ -236,7 +236,7 @@ table$Condicion<-rep(c("Sí","No"), by=6)
 ggplot(table, aes(Percent, reorder(Variable,Percent), fill=Condicion)) + geom_bar(position="stack", stat="identity") + theme_classic() + labs(x="Porcentaje total de diagnosticados", fill="Condición", y="Condición de salud")
 ```
 
-### % diagnosticados por estado residencia
+### % casos positivos por estado
 
 ```{r include=FALSE}
 edo<-freq(D1$entidad_res)
@@ -248,7 +248,7 @@ edo$Entidad<-c("Aguascalientes","Baja California","Baja California Sur","Campech
                        "San Luis Potosí", "Sinaloa","Sonora", "Tabasco", "Tamaulipas","Tlaxcala","Veracruz","Yucatán", "Zacatecas")
 ```
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 p<-ggplot(edo) + geom_point(aes(reorder(Entidad,Percent), Percent), size=5, color="#088A68") + theme_classic() + labs(y="% Casos diagnosticados totales", x="Entidad") +  theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="bottom")  + ylim(c(0,35)) + transition_states(Percent) + shadow_mark()
 animate(p, renderer = gifski_renderer(), fps=70, end_pause = 30)
 ```

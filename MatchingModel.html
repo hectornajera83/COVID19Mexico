@@ -9,9 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Dr. Héctor Nájera" />
 
-<meta name="date" content="2020-05-20" />
 
 <title>Análisis de robustez</title>
 
@@ -330,14 +328,13 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Análisis de robustez</h1>
-<h4 class="author">Dr. Héctor Nájera</h4>
-<h4 class="date">20 May 2020</h4>
 
 </div>
 
 
-<p>Las prevalencias ajustada provienen de un modelo bayesiano jerárquico robusto que regularmente da mejores resultados que los modelos comunes de máxima verosimilitud. Sin embargo, la naturaleza de los datos utilizados puede afectar la precisión de la estimación y sesgar las cifras reportadas. Con el fin de garantizar un mínimo de robustez de los resultados presentados, se hacieron análisis cuasi-experimentales (Comparar a dos grupos equivalentes) para tratar de reducir el efecto del modelo y la estructura de datos sobre los resultados.</p>
+<p>Las prevalencias ajustadas se obtuvieron de un modelo bayesiano jerárquico robusto que regularmente da mejores resultados que los modelos comunes de máxima verosimilitud. Sin embargo, la naturaleza de los datos utilizados (i.e. la población en la muestra puede desviarse bastante de los valores que se tuvieran si existiera información perfecta) puede afectar la precisión de la estimación y sesgar las cifras reportadas. Con el fin de garantizar un mínimo de robustez de los resultados presentados, se hicieron análisis cuasi-experimentales (Comparar a dos grupos equivalentes) para tratar de reducir el efecto del modelo y la estructura de datos sobre los resultados.</p>
 <p>Estos análisis se hicieron con el paquete <code>MatchIt()</code> de <strong>R</strong>. Los análisis se hicieron para tres factores decisivos en el riesgo de fallecimiento de COVID-19: Obesidad, diabetes e hipertensión. El proceso consistió en estimar tres modelos cuasi-experimentales (análisis de vecinos más cercanos) para obtener un suubconjunto de datos de grupos cuasi-equivalentes. Después se calcularon efectos marginales para compararlos con los resultados del modelo bayesiano de prevalencia ajustada. Los resultados muestran que los resultados del modelo bayesiano son altamente confiables.</p>
+<p>Para mayor información sobre este tipo de análisis se recomienda <a href="https://r.iq.harvard.edu/docs/matchit/2.4-20/matchit.pdf"> leer este texto.</a></p>
 <div id="estimaciones-modelos-de-análisis-causal" class="section level2 tabset">
 <h2>Estimaciones modelos de análisis causal</h2>
 <div id="obesidad" class="section level3">

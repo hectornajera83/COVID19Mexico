@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -85,7 +84,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -234,6 +232,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -308,6 +307,9 @@ $(document).ready(function () {
       <a href="resumen.html">Resumen factores riesgo</a>
     </li>
     <li class="divider"></li>
+    <li>
+      <a href="MatchingModel.html">Análisis de robustez</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -330,7 +332,7 @@ $(document).ready(function () {
 </div>
 
 
-<div id="probabilidad-prevalencia-ajustada-condiciones-de-salud-y-demograficas" class="section level2 tabset">
+<div id="probabilidad-prevalencia-ajustada-condiciones-de-salud-y-demográficas" class="section level2 tabset">
 <h2>Probabilidad (prevalencia) ajustada: condiciones de salud y demográficas</h2>
 <p>Esta sección muestra la prevalencia ajustada de fallecimientos según distintas condiciones demográficas y de salud. A diferencia de la <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws1.html"> prevalencia cruda</a>, se trata de probabilidades que permiten hacer conclusiones más robustas sobre los factores de riesgo de fallecimiento por COVID-19.</p>
 <p>Todas las gráficas reconocen la incertidumbre de la estimación y se incluyen <a href="https://en.wikipedia.org/wiki/Credible_interval" target="_blank">intervalos creíbles</a> al 95% . Esto signfica que, con una probabilidad de 95%, el valor observado se ubica en el rango mostrado en la gráfica.</p>
@@ -343,7 +345,7 @@ $(document).ready(function () {
 <h3>Sexo</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
-<div id="indigena" class="section level3">
+<div id="indígena" class="section level3">
 <h3>Indígena</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
@@ -355,7 +357,7 @@ $(document).ready(function () {
 <h3>Diabetes</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="hipertension" class="section level3">
+<div id="hipertensión" class="section level3">
 <h3>Hipertensión</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
@@ -363,7 +365,7 @@ $(document).ready(function () {
 <h3>Cardiovascular</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
-<div id="enfermedad-renal-cronica" class="section level3">
+<div id="enfermedad-renal-crónica" class="section level3">
 <h3>Enfermedad renal crónica</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
@@ -371,33 +373,33 @@ $(document).ready(function () {
 <h3>Tabaquismo</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
-<div id="interaccion-obesidad-y-diabetes" class="section level3">
+<div id="interacción-obesidad-y-diabetes" class="section level3">
 <h3>Interacción: Obesidad y Diabetes</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
-<div id="interaccion-diabetes-e-hipertension" class="section level3">
+<div id="interacción-diabetes-e-hipertensión" class="section level3">
 <h3>Interacción: Diabetes e hipertensión</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
-<div id="interaccion-obesidad-e-hipertension" class="section level3">
+<div id="interacción-obesidad-e-hipertensión" class="section level3">
 <h3>Interacción obesidad e hipertensión</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
-<div id="interaccion-diabetes-e-hipertension-1" class="section level3">
+<div id="interacción-diabetes-e-hipertensión-1" class="section level3">
 <h3>Interacción diabetes e hipertensión</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 </div>
-<div id="interaccion-edad-e-diabetes" class="section level3">
+<div id="interacción-edad-e-diabetes" class="section level3">
 <h3>Interacción edad e diabetes</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
-<div id="interaccion-edad-y-obesidad" class="section level3">
+<div id="interacción-edad-y-obesidad" class="section level3">
 <h3>Interacción edad y obesidad</h3>
 <p><img src="COVID19_ws2_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
 <div id="nota-probabilidad-ajustada" class="section level3">
 <h3>Nota: Probabilidad ajustada</h3>
-<div id="significado-e-interpretacion" class="section level4">
+<div id="significado-e-interpretación" class="section level4">
 <h4>Significado e interpretación</h4>
 <p>La probabilidad ajustada es la proporción de fallecimientos atribuibles a cierta característica (por ejemplo, hipertensión) después de controlar por ciertos factores en un modelo estadístico. En el caso más simple, el control se hace a los valores promedio de los otros factores. En los casos más complicados el ajuste se hace a valores específicos. Por ejemplo, la probabilidad de fallecimiento para gente con obesidad para la población hipertensa, con diabetes, etc.</p>
 <p>Estos datos se interpretan de la siguiente manera. Considere a dos grupos de personas, uno con y otro sin diabetes, con probabilidades ajustadas de 25% y 15%, respectivamente. Esto significa que -en promedio- el efecto de diabetes sobre la probabilidad de fallecimiento es de 10%. En otras palabras, las personas con diabetes tienen 10% más riesgo de morir que las que no tienen diabetes.</p>
@@ -407,7 +409,7 @@ $(document).ready(function () {
 <p>Riesgo medio: Es la probabilidad de fallecimiento atribuible para la característica en cuestión -e.g. diabetes- considerando las otras características a sus valores promedio. Es decir, es la probabilidad de fallecimiento para diabéticos y no diabéticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta “normal o típica”.</p>
 <p>Riesgo alto: Es la probabilidad de fallecimiento atribuible para la característica -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de fallecimiento para diabéticos y no diabéticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.</p>
 </div>
-<div id="metodo-para-calculo-de-probabilidades" class="section level4">
+<div id="método-para-cálculo-de-probabilidades" class="section level4">
 <h4><strong>Método para cálculo de probabilidades</strong></h4>
 <p>Las probabilidades se obtienen en dos pasos:</p>
 <ul>

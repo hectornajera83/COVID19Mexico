@@ -9,7 +9,7 @@ output:
     theme: cosmo
 ---
 
-``` {r include=FALSE}
+``` {r include=FALSE, eval=FALSE}
 library(bootstraplib)
 bs_theme_new()
 # Color palette derives from https://tombrow.com/dark-mode-website-css

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -85,7 +84,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -234,6 +232,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -308,6 +307,9 @@ $(document).ready(function () {
       <a href="resumen.html">Resumen factores riesgo</a>
     </li>
     <li class="divider"></li>
+    <li>
+      <a href="MatchingModel.html">Análisis de robustez</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -343,17 +345,17 @@ $(document).ready(function () {
 <h3>Entidad</h3>
 <p><img src="COVID19_ws3_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
-<div id="tiempo-atencion" class="section level3">
+<div id="tiempo-atención" class="section level3">
 <h3>Tiempo atención</h3>
 <p><img src="COVID19_ws3_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
-<div id="descriptivo-tiempo-de-atencion" class="section level3">
+<div id="descriptivo-tiempo-de-atención" class="section level3">
 <h3>Descriptivo tiempo de atención</h3>
 <p><img src="COVID19_ws3_files/figure-html/unnamed-chunk-6-1.gif" /><!-- --></p>
 </div>
 <div id="nota-probabilidad-ajustada" class="section level3">
 <h3>Nota: Probabilidad ajustada</h3>
-<div id="significado-e-interpretacion" class="section level4">
+<div id="significado-e-interpretación" class="section level4">
 <h4>Significado e interpretación</h4>
 <p>La probabilidad ajustada es la proporción de fallecimientos atribuibles a cierta característica (por ejemplo, obesidad) después de controlar por ciertos factores en un modelo estadístico. En el caso más simple, el control se hace a los valores promedio de los otros factores. En los casos más complicados el ajuste se hace a valores específicos. Por ejemplo, la probabilidad de Fallecimiento para gente con obesidad para la población hipertensa, con diabetes, etc.</p>
 <p>Estos datos se interpretan de la siguiente manera. Considere a dos grupos de personas, uno con y otro sin diabetes, con probabilidades ajustadas de 25% y 15%, respectivamente. Esto significa que -en promedio- el efecto de diabetes sobre la probabilidad de Fallecimiento es de 10%. En otras palabras, las personas con diabetes tienen 10% más riesgo de morir que las que no tienen diabetes.</p>
@@ -363,7 +365,7 @@ $(document).ready(function () {
 <p>Riesgo medio: Es la probabilidad de Fallecimiento atribuible para la característica en cuestión -e.g. diabetes- considerando las otras características a sus valores promedio. Es decir, es la probabilidad de fallecimiento para diabéticos y no diabéticos con valores promedio de edad, padecimientos, lugar de residencia, hospital de atención, etc. Es decir, el riesgo medio trata de aproximar la probabilidad de morir para una persona adulta “normal o típica”.</p>
 <p>Riesgo alto: Es la probabilidad de fallecimiento atribuible para la característica -e.g. diabetes- considerando que sus otras características -principalmente de salud- son de riesgo. Es decir, es la probabilidad de fallecimiento para diabéticos y no diabéticos que además tienen alto riesgo de enfermedad cardiovascular, renal crónica, obesidad, etc. No se trata, de la población típica en México.</p>
 </div>
-<div id="metodo-para-calculo-de-probabilidades" class="section level4">
+<div id="método-para-cálculo-de-probabilidades" class="section level4">
 <h4><strong>Método para cálculo de probabilidades</strong></h4>
 <p>Las probabilidades se obtienen en dos pasos:</p>
 <ul>

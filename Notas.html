@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -85,7 +84,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -234,6 +232,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -308,6 +307,12 @@ $(document).ready(function () {
       <a href="resumen.html">Resumen factores riesgo</a>
     </li>
     <li class="divider"></li>
+    <li>
+      <a href="MatchingModel.html">Anexo: Análisis de robustez (Comorbilidad)</a>
+    </li>
+    <li>
+      <a href="Survival.html">Anexo: Análisis de supervivencia (Edad)</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -335,7 +340,7 @@ $(document).ready(function () {
 <p>Toda la información para la producción de las estadísticas del sitio se obtiene diariamente de: <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico" class="uri">https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico</a></p>
 <p>La información es abierta, gratuita y pública.</p>
 </div>
-<div id="ajustes-estadisticos" class="section level1">
+<div id="ajustes-estadísticos" class="section level1">
 <h1>Ajustes estadísticos</h1>
 <p>Las probabilidades se obtienen en dos pasos:</p>
 <ul>
@@ -363,7 +368,7 @@ $(document).ready(function () {
 <p>Lüdecke D (2018). “ggeffects: Tidy Data Frames of Marginal Effects from Regression Models.” <em>Journal of Open Source Software</em>, <em>3</em>(26), 772. doi: 10.21105/joss.00772 (URL: <a href="http://doi.org/10.21105/joss.00772" class="uri">http://doi.org/10.21105/joss.00772</a>).</p>
 <p>H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.</p>
 </div>
-<div id="creditos" class="section level1">
+<div id="créditos" class="section level1">
 <h1>3. Créditos</h1>
 <p>Las estimaciones y procesamiento de los datos se hacen por el Dr. Héctor E. Nájera Catalán (PUED-UNAM) (<a href="mailto:hecatalan@hotmail.com" class="email">hecatalan@hotmail.com</a>; <a href="mailto:pthen@bristol.ac.uk" class="email">pthen@bristol.ac.uk</a>).</p>
 <p>PUED-UNAM: <a href="http://www.pued.unam.mx/" class="uri">http://www.pued.unam.mx/</a></p>

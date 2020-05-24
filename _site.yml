@@ -21,8 +21,10 @@ navbar:
         - text: "Resumen factores riesgo"
           href: resumen.html
         - text: "---------"
-        - text: "Análisis de robustez"
-          href: MatchingModel.html        
+        - text: "Anexo: Análisis de robustez (Comorbilidad)"
+          href: MatchingModel.html 
+        - text: "Anexo: Análisis de supervivencia (Edad)"
+          href: Survival.html  
     - text: "Notas metodológicas"
       href: Notas.html
 output:

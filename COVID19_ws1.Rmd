@@ -85,7 +85,7 @@ intu$Intubado<-c("Sí","No","No aplica", "Sin registro")
 ```
 
 ```{r echo=FALSE}
-ggplot(intu) + geom_point(aes(reorder(Intubado,Freq), Freq), size=7, colour="#0099cc") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Intubado") + ylim(c(0,65))
+ggplot(intu) + geom_point(aes(reorder(Intubado,Freq), Freq), size=7, colour="#0099cc") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Intubado") + ylim(c(0,70))
 ```
 
 ### Sexo
@@ -140,7 +140,7 @@ indigena$Indigena<-ifelse(indigena$HABLA_LENGUA_INDIG==1,"Habla lengua indígena
 ```
 
 ```{r echo=FALSE}
-ggplot(indigena) + geom_point(aes(reorder(Indigena,Freq), Freq), size=7, shape=17, colour="#A52A2A") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Lengua indígena") + ylim(c(8,20))
+ggplot(indigena) + geom_point(aes(reorder(Indigena,Freq), Freq), size=7, shape=17, colour="#A52A2A") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Lengua indígena") + ylim(c(8,25))
 ```
 
 ### Estado residencia
@@ -184,7 +184,7 @@ names(sector)[5]<-"Casos totales"
 
 library(BAMMtools)
 
-myBrks <- c(100,1000,5000,10000,20000,30000)
+myBrks <- c(100,1000,5000,10000,20000,30000,40000)
 labels <- c()
 
 for(idx in 1:length(myBrks)){

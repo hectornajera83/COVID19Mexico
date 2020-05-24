@@ -575,16 +575,16 @@ dia.obs<-ggpredict(Model.B, terms = c("diabetes_2", "obesidad_2"), condition = c
                                                                inmusupr_2 = .6,
                                                                asma_2 = .6,
                                                                sexo_1 = .6,
-                                                               sector_3 = .1,
-                                                               sector_4 = .1,
-                                                               sector_6 = .1,
-                                                               sector_8 = .1,
-                                                               sector_9 = .1,
-                                                               sector_11 = .1,
-                                                               sector_12 = .1,
-                                                               lastWeek_1 = .1,
-                                                               lastWeek_2 = .1,
-                                                               lastWeek_3 = .1))
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
 
 
 dia.obs$diabetes<-c("Con diabetes","Sin diabetes", "Con diabetes","Sin diabetes")
@@ -609,16 +609,16 @@ dia.hip<-ggpredict(Model.B, terms = c("diabetes_2", "hipertension_2"), condition
                                                                inmusupr_2 = .6,
                                                                asma_2 = .6,
                                                                sexo_1 = .6,
-                                                               sector_3 = .1,
-                                                               sector_4 = .1,
-                                                               sector_6 = .1,
-                                                               sector_8 = .1,
-                                                               sector_9 = .1,
-                                                               sector_11 = .1,
-                                                               sector_12 = .1,
-                                                               lastWeek_1 = .1,
-                                                               lastWeek_2 = .1,
-                                                               lastWeek_3 = .1))
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
 
 
 dia.hip$diabetes<-c("Con diabetes","Sin diabetes", "Con diabetes","Sin diabetes")
@@ -643,16 +643,16 @@ obs.hip<-ggpredict(Model.B, terms = c("obesidad_2", "hipertension_2"), condition
                                                                inmusupr_2 = .6,
                                                                asma_2 = .6,
                                                                sexo_1 = .6,
-                                                               sector_3 = .1,
-                                                               sector_4 = .1,
-                                                               sector_6 = .1,
-                                                               sector_8 = .1,
-                                                               sector_9 = .1,
-                                                               sector_11 = .1,
-                                                               sector_12 = .1,
-                                                               lastWeek_1 = .1,
-                                                               lastWeek_2 = .1,
-                                                               lastWeek_3 = .1))
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
 
 
 obs.hip$obesidad<-c("Con obesidad","Sin obesidad", "Con obesidad","Sin obesidad")
@@ -677,16 +677,16 @@ dia.hip<-ggpredict(Model.B, terms = c("diabetes_2", "hipertension_2"), condition
                                                                inmusupr_2 = .6,
                                                                asma_2 = .6,
                                                                sexo_1 = .6,
-                                                               sector_3 = .1,
-                                                               sector_4 = .1,
-                                                               sector_6 = .1,
-                                                               sector_8 = .1,
-                                                               sector_9 = .1,
-                                                               sector_11 = .1,
-                                                               sector_12 = .1,
-                                                               lastWeek_1 = .1,
-                                                               lastWeek_2 = .1,
-                                                               lastWeek_3 = .1))
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
 
 
 dia.hip$diabetes<-c("Con diabetes","Sin diabetes", "Con diabetes","Sin diabetes")
@@ -703,25 +703,25 @@ ggplot(dia.hip, aes(x = hipertension, y = predicted*100, colour=diabetes, group=
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 edad.dib<-ggpredict(Model.B, terms = c("edad", "diabetes_2"), condition = c(tabaquismo_2 = .6,
-                                                               cardiovascular_2 = .6,
+                                                               cardiovascular_2 = .8,
                                                                habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
                                                                embarazo_2 = mean(D1$embarazo_2),
-                                                               renal_cronica_2 = .6,
-                                                               hipertension_2 = .6,
-                                                               obesidad_2 = .6,
-                                                               inmusupr_2 = .6,
-                                                               asma_2 = .6,
-                                                               sexo_1 = .6,
-                                                               sector_3 = .1,
-                                                               sector_4 = .1,
-                                                               sector_6 = .1,
-                                                               sector_8 = .1,
-                                                               sector_9 = .1,
-                                                               sector_11 = .1,
-                                                               sector_12 = .1,
-                                                               lastWeek_1 = .1,
-                                                               lastWeek_2 = .1,
-                                                               lastWeek_3 = .1))
+                                                               renal_cronica_2 = .8,
+                                                               hipertension_2 = .8,
+                                                               obesidad_2 = .8,
+                                                               inmusupr_2 = .8,
+                                                               asma_2 = .8,
+                                                               sexo_1 = .5,
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
 
 edad.dib$Diabetes<-ifelse(edad.dib$group==1,"Con diabetes","Sin diabetes")
 
@@ -746,16 +746,16 @@ edad.obs<-ggpredict(Model.B, terms = c("edad", "obesidad_2"), condition = c(taba
                                                                inmusupr_2 = .6,
                                                                asma_2 = .6,
                                                                sexo_1 = .6,
-                                                               sector_3 = .1,
-                                                               sector_4 = .1,
-                                                               sector_6 = .1,
-                                                               sector_8 = .1,
-                                                               sector_9 = .1,
-                                                               sector_11 = .1,
-                                                               sector_12 = .1,
-                                                               lastWeek_1 = .1,
-                                                               lastWeek_2 = .1,
-                                                               lastWeek_3 = .1))
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
 
 edad.obs$Obesidad<-ifelse(edad.obs$group==1,"Con obesidad","Sin obesidad")
 

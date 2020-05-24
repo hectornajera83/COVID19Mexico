@@ -582,27 +582,7 @@ makeFrontier(dataset = D.m, treatment = "obesidad_2", match.on = match.on)
 
 
 
-```{r eval=FALSE, include=FALSE}
-library(survival)
-library(survminer)
 
-D1$survobj<-with(D1, Surv(edad, death == 1))
-
-km.as.one <- survfit(survobj ~ 1 + f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3 , data = D1, conf.type = "log-log")
-
-plot(km.as.one)
-
-res.cox1 <- coxph(survobj ~ f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + edad2 + habla_lengua_indig_2 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data =  D1)
-res.cox1
-
-(res.zph1 <- cox.zph(res.cox1))
-a<-ggcoxzph(res.zph1)
-
-ggsurvplot(km.as.one, conf.int = TRUE, legend.labs=c("Sin obesidad", "Con obesidad"),
-           ggtheme = theme_minimal())
-
-
-```
 
  
 

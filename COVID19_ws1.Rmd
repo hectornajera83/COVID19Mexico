@@ -32,7 +32,7 @@ D1<-subset(D, D$resultado==1)
 D1<-dummy_cols(D1, select_columns = c("obesidad","sector","diabetes","lastWeek","embarazo","intubado","asma", "tabaquismo", "inmusupr",
                                       "hipertension","renal_cronica","cardiovascular","habla_lengua_indig", "sexo"))
 
-D1[,51:94]<-lapply(D1[,51:94], function(x) ifelse(x==0,.000000001,1))
+D1[,51:92]<-lapply(D1[,51:92], function(x) ifelse(x==0,.000000001,1))
 
 ```
 
@@ -184,7 +184,7 @@ names(sector)[5]<-"Casos totales"
 
 library(BAMMtools)
 
-myBrks <- c(100,1000,5000,10000,20000,30000,40000)
+myBrks <- c(100,1000,5000,10000,20000,30000,50000)
 labels <- c()
 
 for(idx in 1:length(myBrks)){

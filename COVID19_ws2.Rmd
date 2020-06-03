@@ -60,7 +60,7 @@ Model.B<-brm(death ~ 1 + f_gap + f_gap2  + sector_3 + sector_4 + sector_6 + sect
                                 set_prior("normal(0,1)", class="b", coef="sector_12"),
                                 set_prior("normal(0,1)", class="b", coef="sector_8"),
                                 set_prior("normal(0,1)", class="b", coef="sector_9")),
- family = "bernoulli", chains=4, cores=4, iter = 1500, control = list(max_treedepth = 12))
+ family = "bernoulli", chains=6, cores=6, iter = 1000, control = list(max_treedepth = 12))
 
 save(Model.B,file="Model.B")
 ```

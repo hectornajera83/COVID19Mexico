@@ -48,6 +48,7 @@ gen f_gap2 = f_gap^2
 * Last two weeks
 
 gen todaygap = today2-f_ingreso
+
 gen lastWeek = 1 if todaygap<=8
 replace lastWeek = 2 if (todaygap>8 & todaygap<=15)
 replace lastWeek = 3 if (todaygap>15 & todaygap<=21)

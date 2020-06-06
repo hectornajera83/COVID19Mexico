@@ -4,12 +4,12 @@ title: "Inicio"
 
 <div class="alert alert-dismissible alert-success">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>Casos totales. Según información de la Secretaría de Salud</strong> <a href="#" class="alert-link"> 101,238   </a>
+  <strong>Casos totales. Según información de la Secretaría de Salud</strong> <a href="#" class="alert-link"> 110,026   </a>
 </div>
 
 <div class="alert alert-dismissible alert-danger">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>Muertes totales. Según información de la Secretaría de Salud</strong> <a href="#" class="alert-link"> 10,637     </a>
+  <strong>Muertes totales. Según información de la Secretaría de Salud</strong> <a href="#" class="alert-link"> 13,170     </a>
 </div>
 
 

@@ -12,7 +12,6 @@ title: "Inicio"
   <strong>Muertes totales. Según información de la Secretaría de Salud</strong> <a href="#" class="alert-link"> 13,170     </a>
 </div>
 
-
 <div class="jumbotron">
   <p class="my-4">Este sitio, <a href="https://datos.gob.mx/busca/dataset/informacion-referente-a-casos-covid-19-en-mexico " target="_blank">con base en información pública</a>, reporta datos sobre las defunciones según: padecimientos, sexo, grupos de edad, etnia, estado de residencia y sector de salud. </p>
   <hr class="my-4">

@@ -1,0 +1,221 @@
+---
+title: "Anexo: Análisis de supervivencia con edad"
+output: html_document
+---
+
+Las <a href="https://hectornajera83.github.io/COVID19Mexico/COVID19_ws2.html" target="_blank">prevalencias ajustadas</a> del efecto combinado de edad con obesidad, hipertensión y diabetes, suponen que el efecto de la enfermedad es constante para diferentes edades. Este supuesto puede resultar inadecuado para los datos en cuestión. Una forma relajar este supuesto sería crear un conjunto de variables binarias para cada año de edad. Este modelo es equivalente a los modelos de <a href="https://www.jstor.org/stable/270718?seq=1" target="_blank">análisis de eventos de tiempo discreto</a>.
+
+$log(\frac {p_{ti}} {1−p_{ti}})=\alpha D_{ti}+βx_{ti}$
+
+Donde $p_{ti}$ es la probabilidad del evento, $D_{ti}$ es el vector de la duración acumulada (i.e. variables binarias, en este caso una para cada edad individual) y $x_{ti}$ son las variables de ajuste del modelo. Se puede apreciar que este modelo es un caso especial de un modelo logístico utilizado para producir las probabildiades ajustadas donde la edad interactua, aunque de manera constante, con las $x_i$'s. 
+
+Este modelo es estimable con estadística bayesiana, sin embargo, el modelo tardaría varias horas en converger. 
+
+Una ventaja de la estadística clásica (o frecuentista) es que los modelos de supervivencia tienen una aplicación bastante estandarizada y mucho más veloz. Estos modelos -tal y como los modelos para tiempos discretos- consideran el efecto (no lineal) que el tiempo, como la edad, tiene sobre la probabilidad de experimentar cierto evento, en este caso el fallecimiento por COVID-19. Estos modelos toman la forma:
+
+$h_i(t)=h_0(t) exp(βx_i)$
+
+donde $h_i(t)$ es el riesgo de fallecer por COVID-19 para una persona en el timepo $t$ (o en este caso la edad) y $h_0(t)$ es el riesgo de base, i.e. cuando $x_i=0$. 
+
+Con el fin de examinar de manera menos conservadora al efecto de la edad, se estimaron modelos de supervivencia (continuos -<a href="https://en.wikipedia.org/wiki/Proportional_hazards_model" target="_blank">Regresión de Cox</a>- y discretos -modelos logísticos con interacciones-) a los datos hospitalarios de la SSA. Los modelos ajustan por las mismas variables que el modelo bayesiano. A continuación, se presentan las curvas de sobrevivencia del modelo de regresión de Cox -los resultados son similares al de tiempo discreto y se omiten para evitar redundancias-, en el que la probabilidad de fallecer es función de la edad -considerando los otros factores a sus valores muestrales promedio-. 
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(foreign)
+library(ggeffects)
+library(jtools)
+library(huxtable)
+library(ggplot2)
+library(haven)
+library(fastDummies)
+library(gganimate)
+library(MatchIt)
+
+D<-read_dta("COVID19.dta")
+D1<-subset(D, D$resultado==1)
+
+
+
+D1<-dummy_cols(D1, select_columns = c("obesidad","sector","diabetes","lastWeek","embarazo","intubado","asma", "tabaquismo", "inmusupr",
+                                      "hipertension","renal_cronica","cardiovascular","habla_lengua_indig", "sexo"))
+```
+
+## Estimaciones modelos de análisis de sobrevivencia {.tabset} 
+
+```{r echo=FALSE, include=FALSE}
+library(survival)
+library(survminer)
+
+res.cox <- coxph(Surv(edad, death == 1) ~ f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11  + habla_lengua_indig_1 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2  + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data =  D1)
+#res.cox
+
+#plot(cox.zph(res.cox))
+
+#library(brms)
+#fit_brm <- brm(edad | cens(1-death) ~ f_gap + f_gap2  + sector_4 + sector_6 + sector_8 + sector_9 + sector_12 + sector_11 + habla_lengua_indig_1 + obesidad_2 + cardiovascular_2 + renal_cronica_2 + tabaquismo_2 + hipertension_2 + inmusupr_2 + asma_2 + diabetes_2 + embarazo_2 + sexo_1 + lastWeek_1 + lastWeek_2 + lastWeek_3, data = D.m, family = brmsfamily("cox"))
+#summary(fit_brm)
+``` 
+
+### Obesidad
+
+```{r echo=FALSE}
+obs_df <- with(D1,
+               data.frame(obesidad_2=c(0,1),
+                          sexo_1=mean(D1$sexo_1),
+                          f_gap=mean(D1$f_gap),
+                          f_gap2=mean(D1$f_gap),
+                          tabaquismo_2 = mean(D1$tabaquismo_2),
+                          diabetes_2=  mean(D1$diabetes_2),
+                          cardiovascular_2 =  mean(D1$cardiovascular_2),
+                          habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                          embarazo_2 = mean(D1$embarazo_2),
+                          renal_cronica_2 =  mean(D1$renal_cronica_2),
+                          hipertension_2 =  mean(D1$hipertension_2),
+                          inmusupr_2 =  mean(D1$inmusupr_2),
+                          asma_2 =  mean(D1$asma_2),
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
+
+
+sf <- survfit(res.cox, 
+              newdata = obs_df, conf.int=.99)
+
+data.m<-data.frame(Edad=sf$time,value=sf$surv[,1],upper=sf$upper[,1], lower=sf$lower[,1], variable="Con Obesidad")
+data.f<-data.frame(Edad=sf$time,value=sf$surv[,2],upper=sf$upper[,2], lower=sf$lower[,2], variable="Sin Obesidad")
+data<-as.data.frame(rbind(data.m,data.f))
+
+ggplot(data, aes(Edad, value, group=variable, color=variable)) + geom_line() + geom_ribbon(aes(ymin=lower, ymax=upper, fill=variable), alpha=.4) + 
+  theme_classic() +   scale_color_manual(values=c("#FD0F0F", "#4362A3")) + scale_fill_manual(values=c("#FD0F0F", "#4362A3")) + labs(y="Probabilidad S(edad)")
+
+```
+
+### Diabetes
+
+```{r echo=FALSE}
+obs_df <- with(D1,
+               data.frame(diabetes_2=c(0,1),
+                          sexo_1=mean(D1$sexo_1),
+                          f_gap=mean(D1$f_gap),
+                          f_gap2=mean(D1$f_gap),
+                          tabaquismo_2 = mean(D1$tabaquismo_2),
+                          obesidad_2=  mean(D1$obesidad_2),
+                          cardiovascular_2 =  mean(D1$cardiovascular_2),
+                          habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                          embarazo_2 = mean(D1$embarazo_2),
+                          renal_cronica_2 =  mean(D1$renal_cronica_2),
+                          hipertension_2 =  mean(D1$hipertension_2),
+                          inmusupr_2 =  mean(D1$inmusupr_2),
+                          asma_2 =  mean(D1$asma_2),
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
+
+
+sf <- survfit(res.cox, 
+              newdata = obs_df, conf.int=.975)
+
+data.m<-data.frame(Edad=sf$time,value=sf$surv[,1],upper=sf$upper[,1], lower=sf$lower[,1], variable="Con Diabetes")
+data.f<-data.frame(Edad=sf$time,value=sf$surv[,2],upper=sf$upper[,2], lower=sf$lower[,2], variable="Sin Diabetes")
+data<-as.data.frame(rbind(data.m,data.f))
+
+ggplot(data, aes(Edad, value, group=variable, color=variable)) + geom_line() + geom_ribbon(aes(ymin=lower, ymax=upper, fill=variable), alpha=.4) + 
+  theme_classic() +   scale_color_manual(values=c("#B59FCB", "#35786A")) + scale_fill_manual(values=c("#B59FCB", "#35786A")) + labs(y="Probabilidad S(edad)")
+
+```
+
+### Hipertension
+
+```{r echo=FALSE}
+obs_df <- with(D1,
+               data.frame(hipertension_2=c(0,1),
+                          sexo_1=mean(D1$sexo_1),
+                          f_gap=mean(D1$f_gap),
+                          f_gap2=mean(D1$f_gap),
+                          tabaquismo_2 = mean(D1$tabaquismo_2),
+                          obesidad_2=  mean(D1$obesidad_2),
+                          cardiovascular_2 =  mean(D1$cardiovascular_2),
+                          habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                          embarazo_2 = mean(D1$embarazo_2),
+                          renal_cronica_2 =  mean(D1$renal_cronica_2),
+                          diabetes_2 =  mean(D1$diabetes_2),
+                          inmusupr_2 =  mean(D1$inmusupr_2),
+                          asma_2 =  mean(D1$asma_2),
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
+
+
+sf <- survfit(res.cox, 
+              newdata = obs_df, conf.int=.975)
+
+data.m<-data.frame(Edad=sf$time,value=sf$surv[,1],upper=sf$upper[,1], lower=sf$lower[,1], variable="Con Hipertensión")
+data.f<-data.frame(Edad=sf$time,value=sf$surv[,2],upper=sf$upper[,2], lower=sf$lower[,2], variable="Sin Hipertensión")
+data<-as.data.frame(rbind(data.m,data.f))
+
+ggplot(data, aes(Edad, value, group=variable, color=variable)) + geom_line() + geom_ribbon(aes(ymin=lower, ymax=upper, fill=variable), alpha=.4) + 
+  theme_classic() +   scale_color_manual(values=c("#B59FCB", "#290A27")) + scale_fill_manual(values=c("#B59FCB", "#290A27")) + labs(y="Probabilidad S(edad)")
+
+```
+
+### Renal crónica
+
+```{r echo=FALSE}
+obs_df <- with(D1,
+               data.frame(renal_cronica_2=c(0,1),
+                          sexo_1=mean(D1$sexo_1),
+                          f_gap=mean(D1$f_gap),
+                          f_gap2=mean(D1$f_gap),
+                          tabaquismo_2 = mean(D1$tabaquismo_2),
+                          obesidad_2=  mean(D1$obesidad_2),
+                          cardiovascular_2 =  mean(D1$cardiovascular_2),
+                          habla_lengua_indig_1 = mean(D1$habla_lengua_indig_1),
+                          embarazo_2 = mean(D1$embarazo_2),
+                          hipertension_2 =  mean(D1$hipertension_2),
+                          diabetes_2 =  mean(D1$diabetes_2),
+                          inmusupr_2 =  mean(D1$inmusupr_2),
+                          asma_2 =  mean(D1$asma_2),
+                           sector_3 = mean(D1$sector_3),
+                           sector_4 = mean(D1$sector_4),
+                           sector_6 = mean(D1$sector_6),
+                           sector_8 = mean(D1$sector_8),
+                           sector_9 = mean(D1$sector_9),
+                           sector_11 = mean(D1$sector_11),
+                           sector_12 = mean(D1$sector_12),
+                           lastWeek_1 = mean(D1$lastWeek_1),
+                           lastWeek_2 = mean(D1$lastWeek_2),
+                           lastWeek_3 = mean(D1$lastWeek_3)))
+
+
+sf <- survfit(res.cox, 
+              newdata = obs_df, conf.int=.975)
+
+data.m<-data.frame(Edad=sf$time,value=sf$surv[,1],upper=sf$upper[,1], lower=sf$lower[,1], variable="Con enf renal crónica")
+data.f<-data.frame(Edad=sf$time,value=sf$surv[,2],upper=sf$upper[,2], lower=sf$lower[,2], variable="Sin enf renal crónica")
+data<-as.data.frame(rbind(data.m,data.f))
+
+ggplot(data, aes(Edad, value, group=variable, color=variable)) + geom_line() + geom_ribbon(aes(ymin=lower, ymax=upper, fill=variable), alpha=.4) + 
+  theme_classic() +   scale_color_manual(values=c("#D6B5F0", "#6DAE78")) + scale_fill_manual(values=c("#D6B5F0", "#6DAE78")) + labs(y="Probabilidad S(edad)")
+
+```

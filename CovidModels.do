@@ -75,7 +75,7 @@ tab habla_lengua_indig, gen(indigena)
 
 logit death f_gap f_gap2 sector3 sector4 sector6 sector8 sector9 sector11 sector12 edad edad2 indigena2 ///
  i.obesidad i.cardiovascular i.renal_cronica i.tabaquismo i.hipertension i.inmusupr ///
- asma i.diabetes i.embarazo i.sexo i.lastWeek i.tabaquismo  if resultado==1, or
+ asma i.diabetes i.embarazo i.sexo i.lastWeek i.tabaquismo  if resultado==1
  
  
 melogit death f_gap f_gap2 sector3 sector4 sector6 sector8 sector9 sector11 sector12 edad edad2 indigena2 ///

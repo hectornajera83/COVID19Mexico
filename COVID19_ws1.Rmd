@@ -184,7 +184,7 @@ names(sector)[5]<-"Casos totales"
 
 library(BAMMtools)
 
-myBrks <- c(100,1000,5000,10000,20000,30000,60000)
+myBrks <- c(100,1000,5000,10000,20000,30000,60000, 80000)
 labels <- c()
 
 for(idx in 1:length(myBrks)){

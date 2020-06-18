@@ -1,5 +1,5 @@
 
-import delimited "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\200611COVID19MEXICO", clear
+import delimited "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\200616COVID19MEXICO", clear
 
 *
 gen edad2 = edad^2
@@ -64,7 +64,9 @@ recode embarazo (2/98=2) (1=1)
 
 drop if cardiovascular==98 | tabaquismo==98 | hipertension==98 | renal_cronica==98 | obesidad==98 | diabetes==98 | inmusupr==98
 
-save "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\COVID19.dta", replace 
+keep if resultado==1
+
+save "C:\OneDrive\Proyectos Investigacion\COVID19\COVID19Mexico\COVID19r.dta", replace 
 
 * Modelo: (con o sin entidad)
 

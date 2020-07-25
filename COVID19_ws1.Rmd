@@ -85,7 +85,7 @@ intu$Intubado<-c("Sí","No","No aplica", "Sin registro")
 ```
 
 ```{r echo=FALSE}
-ggplot(intu) + geom_point(aes(reorder(Intubado,Freq), Freq), size=7, colour="#0099cc") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Intubado") + ylim(c(0,70))
+ggplot(intu) + geom_point(aes(reorder(Intubado,Freq), Freq), size=7, colour="#0099cc") + theme_classic() + labs(y="% de fallecimientos dentro del grupo", x="Intubado") + ylim(c(0,80))
 ```
 
 ### Sexo
@@ -184,7 +184,7 @@ names(sector)[5]<-"Casos totales"
 
 library(BAMMtools)
 
-myBrks <- c(100,1000,5000,10000,20000,50000,100000,200000)
+myBrks <- c(100,1000,5000,10000,25000,50000,100000,200000,300000)
 labels <- c()
 
 for(idx in 1:length(myBrks)){
